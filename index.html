@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Level English Editing Practice</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --border: #cbd5e1;
+            --error: #ef4444;
+            --success: #22c55e;
+            --selection-bg: #eff6ff;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            padding: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+/* Enables smooth touch scrolling and interaction on iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Prevents iOS from treating taps as text selections */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Ensures touch actions trigger script events instead of browser gestures */
+  touch-action: manipulation;
+
+
+        }
+        .container {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+        h2 { text-align: center; margin-bottom: 5px; }
+        .practice-nav-top {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+        .instructions {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        
+        .text-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 8px;
+            width: 100%;
+        }
+       .text-content {
+    width: 100%;
+    max-width: 680px; 
+    font-size: 0.95rem;
+    padding-right: 15px;
+    line-height: 2; /* Adds breathing room when text wraps */
+}
+.interaction-area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 350px; 
+}
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            width: 100%; 
+        }
+        
+        .word {
+            cursor: pointer;
+            padding: 2px 3px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .word:hover { background: #e2e8f0; }
+        .word.selected {
+            border: 2px solid var(--primary);
+            background: var(--selection-bg);
+        }
+        .line-num {
+            font-weight: bold;
+            width: 25px;
+            color: #64748b;
+            text-align: right;
+        }
+        input[type="text"] {
+            width: 110px;
+            padding: 5px 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        input[type="text"]:disabled {
+            background-color: #f1f5f9;
+            cursor: not-allowed;
+        }
+        .no-error-btn {
+            padding: 5px 10px;
+            background: #e2e8f0;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            min-width: 45px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .no-error-btn:hover {
+            background: #cbd5e1;
+        }
+        .no-error-btn.active {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+        
+        .status-indicator {
+            font-weight: bold;
+            font-size: 0.9em;
+            display: none;
+        }
+        .status-indicator.correct { color: var(--success); }
+        .status-indicator.wrong { color: var(--error); }
+
+        .btn-container {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        button.action-btn {
+            padding: 10px 24px;
+            font-size: 1.05em;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .submit-btn { background: var(--primary); }
+        .submit-btn:hover { background: #1d4ed8; }
+        .retry-btn { background: #64748b; display: none; }
+        .retry-btn:hover { background: #475569; }
+        .nav-btn { background: #0f766e; }
+        .nav-btn:hover { background: #115e59; }
+        .nav-btn:disabled { background: #cbd5e1; cursor: not-allowed; color: #94a3b8; }
+        
+        .feedback {
+            margin-top: 4px;
+            font-size: 0.85em;
+            display: none;
+            width: 100%;
+            padding-left: 35px;
+        }
+        .feedback-reason { color: #475569; font-style: italic; display: block; }
+        
+        #results-summary {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            display: none;
+        }
+
+@media (max-width: 768px) {
+    .text-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .text-content {
+        max-width: 100%;
+        margin-bottom: 12px;
+    }
+    .interaction-area {
+        max-width: 100%;
+    }
+    .input-group {
+        flex-wrap: wrap;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 id="practice-title">Editing Practice</h2>
+    <div class="practice-nav-top" id="practice-counter">Practice 1 of X</div>
+       
+    <div class="instructions">
+        <strong>Instructions:</strong> Read the text below. For eight of the numbered lines, there is one grammatical error. Two lines have no errors. <br>
+        - Click a word to "circle" it as the error, then type the correct word in the box.<br>
+        - If there is no error, click the "✓" button. (Maximum of 2 ticks allowed).<br>
+        - Note: Capitalisation matters for your answers!
+    </div>
+
+    <div id="exercise-container"></div>
+
+    <div class="btn-container">
+        <button class="action-btn nav-btn" id="prev-btn" onclick="loadPrevPractice()">⬅️ Previous</button>
+        <button class="action-btn submit-btn" id="submit-btn" onclick="checkAnswers()">Submit Answers</button>
+        <button class="action-btn retry-btn" id="retry-btn" onclick="resetExercise()">Retry Practice</button>
+        <button class="action-btn nav-btn" id="next-btn" onclick="loadNextPractice()">Next ➡️</button>
+    </div>
+    
+    <div id="results-summary"></div>
+</div>
+
+<script>
+    const practices = [
+        {
+            title: "Practice 1: Orangutans (NAS 2026)",
+            data: [
+                { text: "Derived from the Malay language, the name orangutan means \"man of the", lineNum: "" },
+                { text: "forest\". Known for its characteristic red fur, orangutans are the largest arboreal", lineNum: "1", errorWord: "its", correctWord: ["their"], reason: "Pronoun (plural)", type: "error" },
+                { text: "mammals, primarily residing in a forest canopy. Their long, powerful arms and", lineNum: "2", errorWord: "a", correctWord: ["the"], reason: "Article", type: "error" },
+                { text: "prehensile hands and feet allowed them to move through branches with ease.", lineNum: "3", errorWord: "allowed", correctWord: ["allow"], reason: "Tense", type: "error" },
+                { text: "They fulfil a pivotal function, dispersal seeds in their tropical forest habitats.", lineNum: "4", errorWord: "dispersal", correctWord: ["dispersing"], reason: "Word Form", type: "error" },
+                { text: "However, the habitats of Asia's only great apes is disappearing under the", lineNum: "5", errorWord: "is", correctWord: ["are"], reason: "Subject-Verb Agreement", type: "error" },
+                { text: "chainsaw to make way for oil palm and other agricultural plantations. Illegal", lineNum: "6", type: "tick" },
+                { text: "logging remains an existential threat to the orangutans. Today, surviving", lineNum: "7", type: "tick" },
+                { text: "orangutans are found in forests that are owned and managed from timber and", lineNum: "8", errorWord: "from", correctWord: ["by"], reason: "Preposition", type: "error" },
+                { text: "palm oil companies. However, this threat is exacerbated by an extremely", lineNum: "9", errorWord: "However,", correctWord: ["Furthermore", "Additionally", "Moreover"], reason: "Conjunction", type: "error" },
+                { text: "low reproductive rate, who makes their population highly vulnerable. They", lineNum: "10", errorWord: "who", correctWord: ["which"], reason: "Relative pronoun", type: "error" },
+                { text: "are also killed for food or in retaliation when they move into agricultural areas.", lineNum: "" }
+            ]
+        },
+        {
+            title: "Practice 2: The Ginkgo Tree (NAS 2025)",
+            data: [
+                { text: "Native to China, the Ginkgo biloba is a majestic tree with distinctive golden", lineNum: "" },
+                { text: "fan-shaped leaf. A veritable living fossil, it is an exceptional tree that has", lineNum: "1", errorWord: "leaf.", correctWord: ["leaves"], reason: "Singular/Plural noun", type: "error" },
+                { text: "fascinated people for thousands of years. Appeared over 270 million years", lineNum: "2", errorWord: "Appeared", correctWord: ["Appearing"], reason: "Verb form", type: "error" },
+                { text: "ago, it is considered the world's oldest tree species. Its longevity and", lineNum: "3", type: "tick" },
+                { text: "resistance is legend: it even survived the Hiroshima atomic explosion, being", lineNum: "4", errorWord: "legend:", correctWord: ["legendary"], reason: "Word form (adjective)", type: "error" },
+                { text: "the first plant to regrow after the disaster. In Japan, the Ginkgo occupied a", lineNum: "5", errorWord: "occupied", correctWord: ["occupies"], reason: "Tense (present)", type: "error" },
+                { text: "special place in its culture. Introduced as early as the 12th century, it has", lineNum: "6", type: "tick" },
+                { text: "become an emblematic element of the archipelago. Before 1989, it has been", lineNum: "7", errorWord: "Before", correctWord: ["Since"], reason: "Conjunction (time reference)", type: "error" },
+                { text: "the official emblem of the capital, Tokyo. Its stylized leaf adorns the logo on", lineNum: "8", errorWord: "on", correctWord: ["of"], reason: "Preposition", type: "error" },
+                { text: "the Tokyo Metro, and many of the city’s parks are populated by these trees. An", lineNum: "9", errorWord: "An", correctWord: ["The"], reason: "Article (specific)", type: "error" },
+                { text: "avenue of ginkgos in Meiji-Jingu Gaien Park are particularly famous, attracting", lineNum: "10", errorWord: "are", correctWord: ["is"], reason: "Subject-Verb Agreement", type: "error" },
+                { text: "photographers each autumn to immortalize the spectacle of golden leaves.", lineNum: "" }
+            ]
+        },
+        {
+            title: "Practice 3: Vegetables (Nan Chiau 2025)",
+            data: [
+                { text: "In 2010, nine in 10 Singapore residents did not eat enough fruits and vegetables,", lineNum: "" },
+                { text: "according to a National Nutrition Survey conducted that year. That figure improved in the", lineNum: "1", errorWord: "a", correctWord: ["the"], reason: "Determiner", type: "error" },
+                { text: "2018 survey, with average vegetable consumption hitting the recommended two daily", lineNum: "2", type: "tick" },
+                { text: "servings. But why are vegetables overlooked as our local cuisine? It may be because", lineNum: "3", errorWord: "as", correctWord: ["in"], reason: "Preposition", type: "error"  },
+                { text: "hawker food is often thought of as everyday fare; more than half of Singaporeans eat at", lineNum: "4", type: "tick" },
+                { text: "the hawker centre at least three times a week. Therefore, many of these dishes are too", lineNum: "5", errorWord: "Therefore", correctWord: ["However"], reason: "Conjunction", type: "error" },
+                { text: "nutrition poor and calorically dense to be eaten on a regular basis. They are rooted in a", lineNum: "6",  errorWord: "nutrition", correctWord: ["nutritionally"], reason: "Word Form", type: "error" },
+                { text: "time when many Singaporeans worked physically demanding jobs and require extra", lineNum: "7", errorWord: "require", correctWord: ["required"], reason: "Tense", type: "error" },
+                { text: "calories to perform strenuous tasks. Even though Singaporeans now mostly working", lineNum: "8", errorWord: "working", correctWord: ["work"], reason: "Verb Form", type: "error" },
+                { text: "sedentary, desk-bound jobs, the face of hawker food has not changed many. The price", lineNum: "9", errorWord: "many", correctWord: ["much"], reason: "Adverb", type: "error" },
+                { text: "ceiling on hawker food might also have a part to play with the disproportionate lack of", lineNum: "10", errorWord: "with", correctWord: ["in"], reason: "Preposition", type: "error" },
+                { text: "vegetables on our plates. Hawkers give a lot of carbohydrates so that the plate looks full.", lineNum: "" }
+            ]
+        },
+        {
+            title: "Practice 4: Biodegradable Plastic (MSHS 2025)",
+            data: [
+                { text: "Researchers in Japan have developed a plastic that dissolves in seawater", lineNum: "" },
+                { text: "within hours, potentially offering up a solution of a modern-day scourge", lineNum: "1", errorWord: "of", correctWord: ["to", "for"], reason: "Preposition", type: "error" },
+                { text: "polluting oceans and harming wildlife. While scientists have long experimented", lineNum: "2", type: "tick" },
+                { text: "with biodegradable plastics, the Japanese say their new material broke down", lineNum: "3", errorWord: "broke", correctWord: ["breaks"], reason: "Tense", type: "error" },
+                { text: "much more quicker and leaves no residual trace. At a laboratory in Tokyo, the", lineNum: "4", errorWord: "quicker", correctWord: ["quickly"], reason: "Word Form", type: "error" },
+                { text: "team demonstrated a small piece of plastic vanished in a container of salt", lineNum: "5", errorWord: "vanished", correctWord: ["vanishing"], reason: "Verb Form", type: "error" },
+                { text: "water after stirring them for about an hour. While the team has not yet detailed", lineNum: "6", errorWord: "them", correctWord: ["it"], reason: "Pronoun", type: "error" },
+                { text: "any plans for commercialisation, their research has attracted significant", lineNum: "7", type: "tick" },
+                { text: "interest, including from those at the packaging sector. Scientists worldwide are", lineNum: "8", errorWord: "at", correctWord: ["in", "from"], reason: "Preposition", type: "error" },
+                { text: "racing to combat the growing plastic waste crisis with innovation approaches.", lineNum: "9", errorWord: "innovation", correctWord: ["innovative"], reason: "Word Form", type: "error" },
+                { text: "Plastic pollution is set to triple by 2040, adding an estimate 23-37 million", lineNum: "10", errorWord: "estimate", correctWord: ["estimated"], reason: "Word Form", type: "error" },
+                { text: "metric tons of waste into the world's oceans each year.", lineNum: "" }
+            ]
+        },
+        {
+            title: "Practice 5: French Perfume (CGSS 2025)",
+            data: [
+                { text: "The French perfume industry traces its roots to the Renaissance, when", lineNum: "" },
+                { text: "the town of Grasse was famed in leather goods. To mask the unpleasant", lineNum: "1", errorWord: "in", correctWord: ["for"], reason: "Preposition", type: "error" },
+                { text: "smells from tanneries, leather-makers start infusing their products", lineNum: "2", errorWord: "start", correctWord: ["started"], reason: "Tense", type: "error" },
+                { text: "with floral essences. This practise evolved into a refined craft, and was", lineNum: "3", errorWord: "practise", correctWord: ["practice"], reason: "Word Form", type: "error" },
+                { text: "passed down through generations. Jean-Louis Fargeon, the perfumer", lineNum: "4", type: "tick" },
+                { text: "believed to have created scents for Marie Antoinette, came from the", lineNum: "5", errorWord: "the", correctWord: ["a"], reason: "Article", type: "error" },
+                { text: "long line of apothecaries. The renowned fragrance house Guerlain,", lineNum: "6", type: "tick" },
+                { text: "one of France's older, was a family-run business for many years,", lineNum: "7", errorWord: "older,", correctWord: ["oldest"], reason: "Superlative", type: "error" },
+                { text: "serving both European and American elites. Moreover, perfumers", lineNum: "8", errorWord: "Moreover,", correctWord: ["Yet", "However", "Nevertheless"], reason: "Conjunction", type: "error" },
+                { text: "often remain behind the scene. Chanel No. 5, for example, is", lineNum: "9", errorWord: "scene.", correctWord: ["scenes"], reason: "Plural Noun", type: "error" },
+                { text: "associated with Marilyn Monroe rather than her creator, Ernest Beaux.", lineNum: "10", errorWord: "her", correctWord: ["its"], reason: "Pronoun", type: "error" },
+                { text: "In perfumery, the creator is often simply called \"a nose\".", lineNum: "" }
+            ]
+        },
+        {
+            title: "Practice 6: Volunteerism (AC Barker 2025)",
+            data: [
+                { text: "Young people around the world are finding ways to contribute meaningfully to society.", lineNum: "" },
+                { text: "Many of them has volunteered with organisations addressing poverty, education and", lineNum: "1", errorWord: "has", correctWord: ["have"], reason: "Subject-Verb Agreement", type: "error" },
+                { text: "health. In Singapore, more youths are taking the initiative to serve in community-led effort.", lineNum: "2", errorWord: "effort.", correctWord: ["efforts"], reason: "Plural Noun", type: "error" },
+                { text: "Volunteering do not only build empathy, but also practical life skills. However, some teens", lineNum: "3", errorWord: "do", correctWord: ["does"], reason: "Subject-Verb Agreement", type: "error" },
+                { text: "hesitate because they believed they lack time or experience. One student shared that he", lineNum: "4", errorWord: "believed", correctWord: ["believe"], reason: "Tense", type: "error" },
+                { text: "were nervous before his first mentoring session. Still, he continues to return weekly,", lineNum: "5", errorWord: "were", correctWord: ["was"], reason: "Subject-Verb Agreement", type: "error" },
+                { text: "encouraged by the progress of his mentee. Many programmes are designed flexible,", lineNum: "6", errorWord: "flexible,", correctWord: ["flexibly"], reason: "Word Form (Adverb)", type: "error" },
+                { text: "allowing students to balance service with studies. Some efforts focus on causes, like", lineNum: "7", type: "tick" },
+                { text: "animal rescue, environmental clean-ups or mental well-being. Beyond helping others,", lineNum: "8", type: "tick" },
+                { text: "these experience often spark deeper reflection and purpose. Educators say youth", lineNum: "9", errorWord: "experience", correctWord: ["experiences"], reason: "Plural", type: "error" },
+                { text: "engagement is highest when students feel their voice is value. By stepping up, young", lineNum: "10", errorWord: "value.", correctWord: ["valued"], reason: "Word Form", type: "error" },
+                { text: "people demonstrate that leadership begins with compassion.", lineNum: "" }
+            ]
+        },
+        {
+            title: "Practice 7: Why We Yawn (ACSI 2025)",
+            data: [
+                { text: "The physiological function of the yawn remains elusive, making it the", lineNum: "" },
+                { text: "less understood human behaviour. Hunger and boredom are", lineNum: "1", errorWord: "less", correctWord: ["least"], reason: "Superlative adjective", type: "error" },
+                { text: "states in whom we may find our attention drifting. A yawn then serves as", lineNum: "2", errorWord: "whom", correctWord: ["which"], reason: "Relative pronoun", type: "error" },
+                { text: "our body's effort to reengage itself rather than succumb by fatigue. In", lineNum: "3", errorWord: "by", correctWord: ["to"], reason: "Phrasal verb", type: "error" },
+                { text: "fact, a yawn is usually followed by increasing movements and", lineNum: "4", errorWord: "increasing", correctWord: ["increased"], reason: "Word form (Adjective)", type: "error" },
+                { text: "physiological activities, which suggest that some sort of 'waking up' had", lineNum: "5", errorWord: "had", correctWord: ["has"], reason: "Tense", type: "error" },
+                { text: "taken place. \"You yawn when you were obviously not bored,\" Robert", lineNum: "6", errorWord: "were", correctWord: ["are"], reason: "Tense", type: "error" },
+                { text: "Provine, a neuroscientist, states. \"For example, the occasionally yawns of", lineNum: "7", errorWord: "occasionally", correctWord: ["occasional"], reason: "Word Form", type: "error" },
+                { text: "Olympic athletes before their events and concert violinists before the", lineNum: "8", errorWord: "the", correctWord: ["a"], reason: "Article", type: "error" },
+                { text: "concerto.\" A yawn may simply signal a shift in physiological state.", lineNum: "9", type: "tick" },
+                { text: "Thus, rather than condemn Sasha Obama's infamous yawn during her", lineNum: "10", type: "tick" },
+                { text: "father's 2013 inaugural address, we should compliment her.", lineNum: "" }
+            ]
+        },
+        {
+            title: "Practice 8: Dolphin Communication (AHS 2025)",
+            data: [
+                { text: "The theory that dolphins may have a language dates back to the 1960s,", lineNum: "" },
+                { text: "thus any conclusive evidence has remained elusive. Dolphins are", lineNum: "1", errorWord: "thus", correctWord: ["though", "but"], reason: "Conjunction", type: "error" },
+                { text: "the more vocal animals in our oceans. Their pods, made up of 10 to 30", lineNum: "2", errorWord: "more", correctWord: ["most"], reason: "Superlative", type: "error" },
+                { text: "dolphins, are a bustle soundscape of clicks, whistles and pulses.", lineNum: "3", errorWord: "bustle", correctWord: ["bustling"], reason: "Word form", type: "error" },
+                { text: "Which to our ears is a creaking door or a melodic pop is to a dolphin a", lineNum: "4", errorWord: "Which", correctWord: ["What"], reason: "Relative Pronoun", type: "error" },
+                { text: "mean to echolocate or communicate. They even have names research", lineNum: "5", errorWord: "mean", correctWord: ["means"], reason: "Singular/Plural", type: "error" },
+                { text: "has found they use 'signature whistles' to identify itself, a sort of vocal", lineNum: "6", errorWord: "itself,", correctWord: ["themselves"], reason: "Pronoun", type: "error" },
+                { text: "version of a human's signature. These whistles are produced by one", lineNum: "7", type: "tick" },
+                { text: "individual and repeated by another to initiate contact. These findings raised", lineNum: "8", errorWord: "raised", correctWord: ["raise"], reason: "Tense", type: "error" },
+                { text: "the question of whether dolphins communicate using something akin with", lineNum: "9", errorWord: "with", correctWord: ["to"], reason: "Preposition", type: "error" },
+                { text: "a language. This discovery may show that these creatures are capable of a", lineNum: "10", type: "tick" },
+                { text: "complex cognitive feat, setting them apart from other aquatic animals.", lineNum: "" }
+            ]
+        },
+        {
+            title: "Practice 9: Boredom & Social Media (FMSS 2025)",
+            data: [
+                { text: "Scrolling through videos on TikTok or YouTube to avert boredom may have a", lineNum: "" },
+                { text: "decidedly unintend consequence. It can make people feel more bored,", lineNum: "1", errorWord: "unintend", correctWord: ["unintended"], reason: "Word Form", type: "error" },
+                { text: "according with the paradoxical findings of a recent study. Researchers", lineNum: "2", errorWord: "with", correctWord: ["to"], reason: "Preposition", type: "error" },
+                { text: "investigated the psychological effects of ‘digital switching’, which are the", lineNum: "3", errorWord: "are", correctWord: ["is"], reason: "Subject-Verb Agreement", type: "error" },
+                { text: "algorithmically enabled, quintessentially modern-day habit of scrolling and", lineNum: "4", type: "tick" },
+                { text: "fast-forwarding through online videos during moments of downtime. Boredom", lineNum: "5", type: "tick" },
+                { text: "is an uncomfortable emotion that serves a purpose, signal that there is", lineNum: "6", errorWord: "signal", correctWord: ["signalling"], reason: "Verb Form (Participle)", type: "error" },
+                { text: "something more pleasurable to do, which can motivate people to explore his", lineNum: "7", errorWord: "his", correctWord: ["their"], reason: "Pronoun", type: "error" },
+                { text: "environment but stop investing time in an activity that has little to offer.", lineNum: "8", errorWord: "but", correctWord: ["and"], reason: "Conjunction", type: "error" },
+                { text: "However, people seem increasing intolerant of it. Psychology Professor", lineNum: "9", errorWord: "increasing", correctWord: ["increasingly"], reason: "Word Form (Adverb)", type: "error" },
+                { text: "Michael Inzlicht, has the piece of advice: Lean into it. Sit with the discomfort of", lineNum: "10", errorWord: "the", correctWord: ["a"], reason: "Article", type: "error" },
+{ text: "boredom for a bit before flitting to something else.", lineNum: ""}
+            ]
+        },
+        {
+            title: "Practice 10: Robots in Education (PRCS 2025)",
+            data: [
+                { text: "Undoubtedly, robots can be useful in education: for example, story-", lineNum: "" },
+                { text: "reading robots has been used to teach basic language skills to", lineNum: "1", errorWord: "has", correctWord: ["have"], reason: "Subject-Verb Agreement", type: "error" },
+                { text: "young children. While the thought of a infallible robot teaching", lineNum: "2", errorWord: "a", correctWord: ["an"], reason: "Article", type: "error" },
+                { text: "in a classroom might seem promising, they are far to being the", lineNum: "3", errorWord: "to", correctWord: ["from"], reason: "Preposition", type: "error" },
+                { text: "future of education. A crucial part of education is the development of", lineNum: "4", type: "tick" },
+                { text: "critical thinking and interpersonal skills. A robot might be capable of", lineNum: "5", type: "tick" },
+                { text: "teaching every subject with a high proficiency, but there is much", lineNum: "6", errorWord: "high", correctWord: ["higher"], reason: "Comparative", type: "error" },
+                { text: "more involved in classroom teaching. The ability to solve problem,", lineNum: "7", errorWord: "problem,", correctWord: ["problems"], reason: "Noun (Plural)", type: "error" },
+                { text: "work collaboratively and think creatively cannot be teach by robots.", lineNum: "8", errorWord: "teach", correctWord: ["taught"], reason: "Verb Form", type: "error" },
+                { text: "Human teachers that can help students develop sociability and", lineNum: "9", errorWord: "that", correctWord: ["who"], reason: "Relative Pronoun", type: "error" },
+                { text: "empathy, also provide the emotion support that helps students", lineNum: "10", errorWord: "emotion", correctWord: ["emotional"], reason: "Word Form", type: "error" },
+                { text: "become a whole person.", lineNum: "" }
+            ]
+        },
+        {
+            title: "Practice 11: Towels & Hygiene (Kuo Chuan 2025)",
+            data: [
+                { text: "A towel used on clean skin after a shower can be one of the filthiest things in your", lineNum: "" },
+                { text: "bathroom. Unwashed towels harboured a host of bacteria and the more often a", lineNum: "1", errorWord: "harboured", correctWord: ["harbour"], reason: "Tense", type: "error" },
+                { text: "towel is used, the most bacteria and fungi it tends to accumulate, as it is unable", lineNum: "2", errorWord: "most", correctWord: ["more"], reason: "Comparative", type: "error" },
+                { text: "to dry complete between uses. People with compromised skin barriers such", lineNum: "3", errorWord: "complete", correctWord: ["completely"], reason: "Word Form (Adverb)", type: "error" },
+                { text: "as eczema is vulnerable, owing to their skin's reduced ability to act", lineNum: "4", errorWord: "is", correctWord: ["are"], reason: "Subject-Verb Agreement", type: "error" },
+                { text: "as a protective barrier. A method chosen to dry towels affects the bacteria", lineNum: "5", errorWord: "A", correctWord: ["The"], reason: "Article", type: "error" },
+                { text: "growth. A sunlight dried towel was show to have half the bacterial colonies after", lineNum: "6", errorWord: "show", correctWord: ["shown"], reason: "Verb Form", type: "error" },
+                { text: "24 hours as compared to one left under the bathroom to dry. When it comes to", lineNum: "7", errorWord: "under", correctWord: ["in"], reason: "Preposition", type: "error" },
+                { text: "material, cotton is the worst, owing to its high absorbencies and slow drying time.", lineNum: "8", errorWord: "absorbencies", correctWord: ["absorbency"], reason: "Noun (Singular)", type: "error" },
+                { text: "Microfibre is slightly better and not as resistant as the antimicrobial and bamboo", lineNum: "9", errorWord: "and", correctWord: ["but"], reason: "Conjunction", type: "error" },
+                { text: "towels, where had some fungus but no detectable bacteria. No material is", lineNum: "10", errorWord: "where", correctWord: ["which"], reason: "Relative pronoun", type: "error" },
+                { text: "foolproof. The key is to wash towels often so that we start with a clean slate.", lineNum: "" }
+            ]
+        },
+        {
+            title: "Practice 12: Taylor Swift (CHIJ St Theresa 2025)",
+            data: [
+                { text: "Taylor Swift has won over the hearts of many as proven in the", lineNum: "" },
+                { text: "success in her Eras tour which is the highest grossing tour for any", lineNum: "1", errorWord: "in", correctWord: ["of"], reason: "Preposition", type: "error" },
+                { text: "artiste of all time, with millions of Swifties cramming in", lineNum: "2", errorWord: "in", correctWord: ["into"], reason: "Preposition", type: "error" },
+                { text: "stadiums to see the superstar live. Her success is mainly due to", lineNum: "3", type: "tick" },
+                { text: "factors such as her enduring in the music industry, as well as her", lineNum: "4", errorWord: "enduring", correctWord: ["endurance"], reason: "Word form", type: "error" },
+                { text: "videos and social media that had spread her fame far and wide.", lineNum: "5", errorWord: "had", correctWord: ["have"], reason: "Tense", type: "error" },
+                { text: "A strong factor lie in her lyrics that build her social fan club,", lineNum: "6", errorWord: "lie", correctWord: ["lies"], reason: "Subject-Verb Agreement", type: "error" },
+                { text: "who binds millions together through a common language and", lineNum: "7", errorWord: "who", correctWord: ["which"], reason: "Relative pronoun", type: "error" },
+                { text: "creates an identity. Fans go to the concerts not solely to listen to", lineNum: "8", type: "tick" },
+                { text: "her music but also for an experience of being a part of a social", lineNum: "9", errorWord: "a", correctWord: ["the"], reason: "Article", type: "error" },
+                { text: "group so that they feel connected; not only to the artiste and to", lineNum: "10", errorWord: "and", correctWord: ["but"], reason: "Conjunction", type: "error" },
+{ text: "other people who appreciate the performer as well.", lineNum: "" }
+
+            ]
+        },
+        {
+            title: "Practice 13: Bubble Tea (CHIJ Katong Convent 2025)",
+            data: [
+                { text: "As much a textural marvel as a refreshing drink, bubble tea is one of Taiwan's most", lineNum: "" },
+                { text: "renowned cultural export. The eponymous 'bubbles' are not the result of carbonation,", lineNum: "1", errorWord: "export.", correctWord: ["exports"], reason: "Subject-Verb Agreement", type: "error" },
+                { text: "and a pile of chewy, sweet, balls of starch that sit at the bottom of the cup and are sucked", lineNum: "2", errorWord: "and", correctWord: ["but"], reason: "Conjunction", type: "error" },
+                { text: "up along with the liquid through the extra-wide straw. Bubble tea as we know it today", lineNum: "3", errorWord: "the", correctWord: ["an"], reason: "Article", type: "error" },
+                { text: "came from existence almost four decades ago. The first iterations of the drink also", lineNum: "4", errorWord: "from", correctWord: ["into"], reason: "Preposition", type: "error" },
+                { text: "called boba tea - emerged in the 1980s out of Taiwan's tradition tea shops, and today", lineNum: "5", errorWord: "tradition", correctWord: ["traditional"], reason: "Word form", type: "error" },
+                { text: "boba tea shops remained a fixture in most neighbourhoods across the island. Rather than", lineNum: "6", errorWord: "remained", correctWord: ["remain"], reason: "Tense", type: "error" },
+                { text: "sit-down spots, these are usually grab-and-go establishments, operating at devilishly fast", lineNum: "7", type: "tick" },
+                { text: "speed. Bubble tea has since proliferate across the world, with dedicated shops popping", lineNum: "8", errorWord: "proliferate", correctWord: ["proliferated"], reason: "Verb form", type: "error" },
+                { text: "up everywhere from Berlin to Brasilia. You will find starch pearls (as the bubbles or boba", lineNum: "9", type: "tick" },
+                { text: "are also known) in many more than milk tea. These pearls are served in all sorts of ways,", lineNum: "10", errorWord: "many", correctWord: ["much"], reason: "Determiner", type: "error" },
+                { text: "whether in rose-scented lattes or even as a pizza topping.", lineNum: "" }
+            ]
+        },
+
+        {
+            title: "Practice 14: National Day (Evergreen 2025)",
+            data: [
+                { text: "National Day in Singapore is a time when citizens unite in celebration.", lineNum: "" },
+                { text: "It commemorates the country’s independent, marking the moment it", lineNum: "1", errorWord: "independent,", correctWord: ["independence"], reason: "Word Form", type: "error" },
+                { text: "becomes a sovereign state in 1965 and began charting its own course.", lineNum: "2", errorWord: "becomes", correctWord: ["become"], reason: "Tense", type: "error" },
+                { text: "Across the island, national flags are hang proudly outside buildings", lineNum: "3", errorWord: "hang", correctWord: ["hung"], reason: "Verb Form", type: "error" },
+                { text: "while residents gather in anticipation of the annual parade to begin.", lineNum: "4", type: "tick" },
+                { text: "The parade, a highlight of the celebrations, feature marching contingents", lineNum: "5", errorWord: "feature", correctWord: ["features"], reason: "Subject Verb Agreement", type: "error" },
+                { text: "and performance groups who have spend weeks perfecting their routines.", lineNum: "6", errorWord: "spend", correctWord: ["spent"], reason: "Verb Form (Perfect)", type: "error" },
+                { text: "Many find themselves enjoying not just the spectacle, but also the uniquely", lineNum: "7", errorWord: "uniquely", correctWord: ["unique"], reason: "Word Form",  type: "error" },
+                { text: "sense of community spirit that events like carnivals and exhibitions help to", lineNum: "8", type: "tick" },
+                { text: "create. A funpack containing many items is distributed for each participant", lineNum: "9", errorWord: "for", correctWord: ["to"], reason: "Preposition", type: "error" },
+                { text: "and items like handheld fans help attendees stay cool but cheerful.", lineNum: "10", errorWord: "but", correctWord: ["and"], reason: "Conjunction", type: "error" },
+                { text: "Ultimately, National Day serves as a reminder of our unity and shared progress.", lineNum: "" }
+            ]
+        },
+
+      {
+            title: "Practice 15: Elderly & Technology (PLMGS 2025)",
+            data: [
+                { text: "Singapore’s seniors are increasingly adopting technology for their well-being.", lineNum: "" },
+                { text: "However, while digital habits have become more common, gaps in usage persists.", lineNum: "1", errorWord: "persists.", correctWord: ["persist"], reason: "Subject Verb Agreement", type: "error" },
+                { text: "Some seniors can navigate applications intuitively, but others remain unfamiliarised", lineNum: "2", errorWord: "unfamiliarised", correctWord: ["unfamiliar"], reason: "Word Form", type: "error" },
+                { text: "with it due to a lack of exposure and practice. One barrier is the assumption", lineNum: "3", errorWord: "it", correctWord: ["them"], reason: "Pronoun (Plural)", type: "error" },
+                { text: "that the elderly need constant support to use such tools. In reality, many", lineNum: "4", type: "tick" },
+                { text: "have expressed that what they needed most is simply clear guidance and", lineNum: "5", errorWord: "needed", correctWord: ["need"], reason: "Tense", type: "error" },
+                { text: "patience. Although the government has introduced various initiatives to bridge the", lineNum: "6", type: "tick" },
+                { text: "digital gap, access for reliable assistance remains limited. Furthermore, the", lineNum: "7", errorWord: "for", correctWord: ["to"], reason: "Preposition",  type: "error" },
+                { text: "lack of standardisation across platforms also often lead to frustration among", lineNum: "8", errorWord: "lead", correctWord: ["leads"], reason: "Subject Verb Agreement", type: "error"  },
+                { text: "users. However, with the right support, every individual can discover or adopt", lineNum: "9", errorWord: "or", correctWord: ["and"], reason: "Conjunction", type: "error" },
+                { text: "digital tools that suit their needs. Empower seniors in this way ensures that no", lineNum: "10", errorWord: "Empower", correctWord: ["Empowering"], reason: "Verb Form", type: "error" },
+                { text: "one is left behind in the journey towards digital inclusion.", lineNum: "" }
+            ]
+        }
+    ];
+
+    let currentPracticeIdx = 0;
+    let userSelections = {};
+
+    function initExercise() {
+        const container = document.getElementById('exercise-container');
+        container.innerHTML = '';
+        userSelections = {};
+        
+        document.getElementById('practice-title').innerText = practices[currentPracticeIdx].title;
+        document.getElementById('practice-counter').innerText = `Practice ${currentPracticeIdx + 1} of ${practices.length}`;
+        const textData = practices[currentPracticeIdx].data;
+
+        textData.forEach((row, index) => {
+            const rowDiv = document.createElement('div');
+            rowDiv.style.display = 'flex';
+            rowDiv.style.flexDirection = 'column';
+            
+            if (row.lineNum === "") {
+                rowDiv.innerHTML = `
+                    <div class="text-row">
+                        <div class="text-content">${row.text}</div>
+                        <div class="interaction-area"></div>
+                    </div>
+                `;
+                container.appendChild(rowDiv);
+                return;
+            }
+
+            userSelections[index] = { word: null, isTick: false };
+            
+            const words = row.text.split(' ');
+            const wordHTML = words.map((w, wIdx) => {
+                if (!w) return '';
+                return `<span class="word" onclick="selectWord(${index}, ${wIdx}, this)">${w}</span>`;
+            }).join(' ');
+
+            rowDiv.innerHTML = `
+                <div class="text-row">
+                    <div class="text-content" id="line-text-${index}">${wordHTML}</div>
+                    <div class="interaction-area">
+                        <div class="input-group">
+                            <span class="line-num">${row.lineNum}</span>
+                            <input type="text" id="input-${index}" placeholder="Correction..." oninput="clearTick(${index})">
+                            <button class="no-error-btn" id="btn-tick-${index}" onclick="toggleTick(${index})">✓</button>
+                            <span class="status-indicator" id="status-${index}"></span>
+                        </div>
+                        <div class="feedback" id="feedback-${index}"></div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(rowDiv);
+        });
+        
+        document.getElementById('results-summary').style.display = 'none';
+        document.getElementById('submit-btn').style.display = 'block';
+        document.getElementById('retry-btn').style.display = 'none';
+        
+        document.getElementById('prev-btn').disabled = currentPracticeIdx === 0;
+        document.getElementById('next-btn').disabled = currentPracticeIdx === practices.length - 1;
+    }
+
+    function selectWord(lineIndex, wordIndex, element) {
+        if (userSelections[lineIndex].isTick) return; 
+
+        const lineElement = document.getElementById(`line-text-${lineIndex}`);
+        const words = lineElement.getElementsByClassName('word');
+        for(let w of words) w.classList.remove('selected');
+        
+        element.classList.add('selected');
+        userSelections[lineIndex].word = element.innerText;
+        
+        clearTick(lineIndex);
+    }
+
+    function toggleTick(lineIndex) {
+        const btn = document.getElementById(`btn-tick-${lineIndex}`);
+        const input = document.getElementById(`input-${lineIndex}`);
+        
+        if (btn.classList.contains('active')) {
+            btn.classList.remove('active');
+            userSelections[lineIndex].isTick = false;
+            
+            input.disabled = false;
+            input.style.opacity = '1';
+            btn.innerHTML = '✓';
+        } else {
+            let currentTicks = 0;
+            Object.keys(userSelections).forEach(idx => {
+                if (userSelections[idx].isTick) currentTicks++;
+            });
+
+            if (currentTicks >= 2) {
+                alert("You can only select a maximum of 2 lines with no errors.");
+                return;
+            }
+
+            btn.classList.add('active');
+            userSelections[lineIndex].isTick = true;
+            
+            input.value = ''; 
+            input.disabled = true;
+            input.style.opacity = '0.5';
+            btn.innerHTML = '✓ Ticked';
+            
+            const lineElement = document.getElementById(`line-text-${lineIndex}`);
+            const words = lineElement.getElementsByClassName('word');
+            for(let w of words) w.classList.remove('selected');
+            userSelections[lineIndex].word = null;
+        }
+    }
+
+    function clearTick(lineIndex) {
+        const btn = document.getElementById(`btn-tick-${lineIndex}`);
+        const input = document.getElementById(`input-${lineIndex}`);
+        
+        if (btn.classList.contains('active')) {
+            btn.classList.remove('active');
+            userSelections[lineIndex].isTick = false;
+            input.disabled = false;
+            input.style.opacity = '1';
+            btn.innerHTML = '✓';
+        }
+    }
+
+    function sanitizeWord(w) {
+        if (!w) return "";
+        return w.replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, '');
+    }
+
+    function checkAnswers() {
+        let score = 0;
+        let totalQuestions = 10;
+        const textData = practices[currentPracticeIdx].data;
+
+        textData.forEach((row, index) => {
+            if (row.lineNum === "") return;
+            
+            const feedbackEl = document.getElementById(`feedback-${index}`);
+            const statusEl = document.getElementById(`status-${index}`);
+            const inputEl = document.getElementById(`input-${index}`);
+            const tickBtn = document.getElementById(`btn-tick-${index}`);
+            
+            let inputVal = inputEl.value.trim();
+            const selection = userSelections[index];
+            
+            feedbackEl.style.display = 'block';
+            statusEl.style.display = 'inline';
+
+            let isCorrect = false;
+            let reasonHtml = "";
+
+            if (row.type === 'tick') {
+                if (selection.isTick) {
+                    isCorrect = true;
+                } else {
+                    reasonHtml = `<span class="feedback-reason">This line has no errors.</span>`;
+                }
+            } else {
+                const cleanSelection = sanitizeWord(selection.word);
+                const cleanErrorWord = sanitizeWord(row.errorWord);
+                const cleanInput = sanitizeWord(inputVal);
+                const cleanCorrectWords = row.correctWord.map(w => sanitizeWord(w));
+
+                const primaryCorrect = cleanCorrectWords[0];
+                const isExactMatch = cleanCorrectWords.includes(cleanInput);
+                const isCaseInsensitiveMatch = cleanCorrectWords.some(w => w.toLowerCase() === cleanInput.toLowerCase());
+
+                if (cleanSelection === cleanErrorWord && isExactMatch) {
+                    isCorrect = true;
+                } else {
+                    reasonHtml = `<span class="feedback-reason">Error was "${cleanErrorWord}" -> "${primaryCorrect}" (${row.reason})</span>`;
+                    
+                    if (cleanSelection === cleanErrorWord && isCaseInsensitiveMatch && !isExactMatch) {
+                        reasonHtml = `<span class="feedback-reason">It must be strictly capitalized as: "${primaryCorrect}"</span>`;
+                    } else if (cleanSelection !== cleanErrorWord && isExactMatch) {
+                         reasonHtml = `<span class="feedback-reason">You must circle "${cleanErrorWord}"</span>`;
+                    }
+                }
+            }
+
+            if (isCorrect) {
+                score++;
+                statusEl.className = "status-indicator correct";
+                statusEl.innerText = "✓ Correct";
+                feedbackEl.innerHTML = ""; 
+                
+                if (!selection.isTick && inputVal !== "") {
+                    inputEl.style.color = 'var(--success)';
+                    inputEl.style.borderColor = 'var(--success)';
+                } else if (selection.isTick) {
+                    tickBtn.style.backgroundColor = 'var(--success)';
+                    tickBtn.style.borderColor = 'var(--success)';
+                }
+            } else {
+                statusEl.className = "status-indicator wrong";
+                statusEl.innerText = "✗ Wrong";
+                feedbackEl.innerHTML = reasonHtml;
+                
+                if (!selection.isTick && inputVal !== "") {
+                    inputEl.style.color = 'var(--error)';
+                    inputEl.style.borderColor = 'var(--error)';
+                } else if (selection.isTick) {
+                    tickBtn.style.backgroundColor = 'var(--error)';
+                    tickBtn.style.borderColor = 'var(--error)';
+                    tickBtn.style.color = 'white';
+                }
+            }
+        });
+
+        const summary = document.getElementById('results-summary');
+        summary.style.display = 'block';
+        summary.innerHTML = `You scored ${score} out of ${totalQuestions} marks.`;
+        summary.style.backgroundColor = score >= 5 ? '#dcfce7' : '#fee2e2';
+        summary.style.color = score >= 5 ? '#166534' : '#991b1b';
+
+        document.getElementById('submit-btn').style.display = 'none';
+        document.getElementById('retry-btn').style.display = 'block';
+        
+        document.querySelectorAll('input').forEach(i => i.disabled = true);
+        document.querySelectorAll('.word').forEach(w => w.style.pointerEvents = 'none');
+        document.querySelectorAll('.no-error-btn').forEach(b => b.style.pointerEvents = 'none');
+    }
+
+    function resetExercise() {
+        initExercise();
+    }
+    
+    function loadNextPractice() {
+        if (currentPracticeIdx < practices.length - 1) {
+            currentPracticeIdx++;
+            initExercise();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+    
+    function loadPrevPractice() {
+        if (currentPracticeIdx > 0) {
+            currentPracticeIdx--;
+            initExercise();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    initExercise();
+</script>
+
+</body>
+</html>
