@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject-Verb Agreement</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+        }
+        .quiz-container {
+            background: #ffffff;
+            border: 2px solid #e0f2fe;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #1e3a8a;
+            text-align: center;
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+        .progress {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .question {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        button.option-btn {
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            border: 2px solid #bfdbfe;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        button.option-btn:hover:not(:disabled) {
+            background-color: #dbeafe;
+        }
+        button.option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.9;
+        }
+        .correct-btn {
+            background-color: #dcfce7 !important;
+            color: #166534 !important;
+            border-color: #86efac !important;
+        }
+        .incorrect-btn {
+            background-color: #fee2e2 !important;
+            color: #991b1b !important;
+            border-color: #fca5a5 !important;
+        }
+        .feedback {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            display: none;
+            line-height: 1.5;
+        }
+        .feedback.correct {
+            display: block;
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+        }
+        .feedback.incorrect {
+            display: block;
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+        }
+        .feedback-status {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        .status-correct { color: #16a34a; }
+        .status-incorrect { color: #dc2626; }
+        .action-btn {
+            margin-top: 20px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .action-btn:hover {
+            background-color: #1d4ed8;
+        }
+        #results {
+            display: none;
+            text-align: center;
+        }
+        #results h2 { color: #1e3a8a; }
+        #score-text { font-size: 1.2rem; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Subject-Verb Agreement</h1>
+    
+    <div id="quiz-block">
+        <div class="progress" id="progress">Question 1 of 20</div>
+        <div class="question" id="question-text">Loading question...</div>
+        <div class="options" id="options-container"></div>
+        
+        <div id="feedback-container" class="feedback">
+            <div id="feedback-status" class="feedback-status"></div>
+            <div id="feedback-text"></div>
+            <button class="action-btn" id="next-btn" onclick="nextQuestion()">Next Question</button>
+        </div>
+    </div>
+
+    <div id="results">
+        <h2>Quiz Complete!</h2>
+        <p id="score-text"></p>
+        <button class="action-btn" onclick="restartQuiz()">Restart Quiz</button>
+    </div>
+</div>
+
+<script>
+const quizData = [
+    { q: "The manager _______ the report by tomorrow morning.", options: ["needs", "need"], answer: "needs", reason: "Singular subjects ('manager') take singular verbs." },
+    { q: "The book that I borrowed from the local library _______ missing from my desk.", options: ["is", "are"], answer: "is", reason: "The true subject is 'book' (singular). The nested clause is ignored." },
+    { q: "The cat and the dog _______ on the same bed every night.", options: ["sleep", "sleeps"], answer: "sleep", reason: "Compound subjects joined by 'and' take a plural verb." },
+    { q: "Either the teacher or the students _______ responsible for the classroom decorations.", options: ["is", "are"], answer: "are", reason: "With 'or', the verb agrees with the subject physically closest to it ('students')." },
+    { q: "The child _______ across the playground as soon as the bell rings.", options: ["runs", "run"], answer: "runs", reason: "Singular subjects ('child') take singular verbs." },
+    { q: "Neither the players nor the coach _______ to forfeit the championship game.", options: ["want", "wants"], answer: "wants", reason: "With 'nor', the verb agrees with the subject closest to it ('coach')." },
+    { q: "The students who passed the difficult exam _______ a special certificate today.", options: ["receive", "receives"], answer: "receive", reason: "The true subject is 'students' (plural), so it takes a plural verb." },
+    { q: "Thunder and lightning _______ my little brother during summer storms.", options: ["scare", "scares"], answer: "scare", reason: "Compound subjects joined by 'and' take a plural verb." },
+    { q: "My favorite textbook _______ way too much money at the campus bookstore.", options: ["cost", "costs"], answer: "costs", reason: "Singular subjects ('textbook') take singular verbs." },
+    { q: "The man who lives in the apartments next door _______ at the local bakery.", options: ["work", "works"], answer: "works", reason: "The true subject is 'man' (singular), which takes a singular verb." },
+    { q: "A blue pen or a black pencil _______ required to fill out this application.", options: ["is", "are"], answer: "is", reason: "With 'or', the verb agrees with the closest subject ('pencil', which is singular)." },
+    { q: "The CEO and the CFO _______ to attend the quarterly review meeting.", options: ["plan", "plans"], answer: "plan", reason: "Compound subjects joined by 'and' take a plural verb." },
+    { q: "The apple _______ unusually sweet today.", options: ["tastes", "taste"], answer: "tastes", reason: "Singular subjects ('apple') take singular verbs." },
+    { q: "The cars that are parked illegally on the street _______ to be moved immediately.", options: ["need", "needs"], answer: "need", reason: "The true subject is 'cars' (plural), which takes a plural verb." },
+    { q: "Either my sisters or my brother _______ the spare key to the house.", options: ["has", "have"], answer: "has", reason: "With 'or', the verb agrees with the closest subject ('brother', which is singular)." },
+    { q: "The blue car and the red truck _______ to the same family.", options: ["belong", "belongs"], answer: "belong", reason: "Compound subjects joined by 'and' take a plural verb." },
+    { q: "The dog _______ loudly every time the mail carrier approaches the porch.", options: ["bark", "barks"], answer: "barks", reason: "Singular subjects ('dog') take singular verbs." },
+    { q: "Neither the manager nor the employees _______ the new security password.", options: ["know", "knows"], answer: "know", reason: "With 'nor', the verb agrees with the closest subject ('employees', which is plural)." },
+    { q: "The painting which she bought at the auction last week _______ beautiful in the hallway.", options: ["look", "looks"], answer: "looks", reason: "The true subject is 'painting' (singular), taking a singular verb." },
+    { q: "Peanut butter and jelly _______ the most popular item on the children's menu.", options: ["is", "are"], answer: "is", reason: "This is treated as a single, unified dish, so it takes a singular verb." }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+const questionText = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const progressText = document.getElementById('progress');
+const feedbackContainer = document.getElementById('feedback-container');
+const feedbackStatus = document.getElementById('feedback-status');
+const feedbackText = document.getElementById('feedback-text');
+const quizBlock = document.getElementById('quiz-block');
+const resultsBlock = document.getElementById('results');
+const scoreText = document.getElementById('score-text');
+
+function loadQuestion() {
+    // Reset state
+    feedbackContainer.className = 'feedback';
+    optionsContainer.innerHTML = '';
+    
+    const currentQ = quizData[currentQuestionIndex];
+    progressText.innerText = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+    questionText.innerText = currentQ.q;
+
+    currentQ.options.forEach(option => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = option;
+        btn.onclick = () => selectAnswer(btn, option, currentQ.answer, currentQ.reason);
+        optionsContainer.appendChild(btn);
+    });
+}
+
+function selectAnswer(selectedBtn, selectedText, correctText, reason) {
+    const buttons = optionsContainer.querySelectorAll('button');
+    buttons.forEach(btn => btn.disabled = true); // Disable all buttons
+
+    const isCorrect = selectedText === correctText;
+
+    if (isCorrect) {
+        score++;
+        selectedBtn.classList.add('correct-btn');
+        feedbackContainer.className = 'feedback correct';
+        feedbackStatus.innerHTML = '<span class="status-correct">Correct!</span>';
+    } else {
+        selectedBtn.classList.add('incorrect-btn');
+        // Highlight the correct one
+        buttons.forEach(btn => {
+            if (btn.innerText === correctText) {
+                btn.classList.add('correct-btn');
+            }
+        });
+        feedbackContainer.className = 'feedback incorrect';
+        feedbackStatus.innerHTML = '<span class="status-incorrect">Incorrect</span>';
+    }
+
+    feedbackText.innerText = reason;
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < quizData.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
+}
+
+function showResults() {
+    quizBlock.style.display = 'none';
+    resultsBlock.style.display = 'block';
+    scoreText.innerText = `You scored ${score} out of ${quizData.length}!`;
+}
+
+function restartQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    quizBlock.style.display = 'block';
+    resultsBlock.style.display = 'none';
+    
+    // Shuffle questions for replayability (optional)
+    quizData.sort(() => Math.random() - 0.5);
+    
+    loadQuestion();
+}
+
+// Start quiz initially
+loadQuestion();
+</script>
+
+</body>
+</html>
