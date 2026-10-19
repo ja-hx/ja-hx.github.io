@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Class Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Ensures smooth scrolling and prevents iframe overflow issues */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="flex items-start justify-center p-2 sm:p-4 md:p-8 box-border">
+
+    <div id="app-container" class="w-full max-w-2xl bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden flex flex-col">
+        
+        <!-- Header -->
+        <header class="bg-blue-600 text-white p-4 sm:p-6 text-center">
+            <h1 class="text-xl sm:text-2xl font-bold">Word Class Mastery Quiz</h1>
+        </header>
+
+        <!-- Quiz Content -->
+        <div class="p-4 sm:p-6 flex-grow flex flex-col">
+            
+            <!-- Progress Bar -->
+            <div id="progress-container" class="mb-4 sm:mb-6">
+                <div class="flex justify-between text-xs sm:text-sm text-slate-500 mb-2 font-medium">
+                    <span id="question-tracker">Question 1 of 20</span>
+                    <span id="score-tracker">Score: 0</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 sm:h-2.5">
+                    <div id="progress-bar" class="bg-blue-600 h-2 sm:h-2.5 rounded-full transition-all duration-300" style="width: 5%"></div>
+                </div>
+            </div>
+
+            <!-- Question Section -->
+            <div id="quiz-section">
+                <p class="text-sm sm:text-base text-slate-500 mb-2 font-semibold uppercase tracking-wider">Identify the correct word form:</p>
+                <p id="question-text" class="text-lg sm:text-xl text-slate-800 font-medium mb-6 leading-relaxed"></p>
+                
+                <div id="options-container" class="flex flex-col gap-3 sm:gap-4 mb-6">
+                    <!-- Options will be injected here -->
+                </div>
+
+                <!-- Feedback Section -->
+                <div id="feedback-section" class="hidden rounded-lg p-4 sm:p-5 mb-6 text-sm sm:text-base">
+                    <p id="feedback-status" class="font-bold text-lg mb-2"></p>
+                    <p id="feedback-explanation" class="text-slate-700 leading-relaxed"></p>
+                </div>
+
+                <button id="next-btn" class="hidden w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 sm:py-4 px-6 rounded-lg transition-colors shadow-sm text-sm sm:text-base">
+                    Next Question
+                </button>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-section" class="hidden text-center py-6 sm:py-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-4">Quiz Complete!</h2>
+                <p class="text-lg sm:text-xl text-slate-600 mb-8">You scored <span id="final-score" class="font-bold text-blue-600"></span> out of 20.</p>
+                <button id="redo-btn" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 sm:py-4 px-8 rounded-lg transition-colors shadow-sm text-sm sm:text-base">
+                    Redo Quiz
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "She presented her ideas very clear during the board meeting yesterday.",
+                options: ["clearness", "clarify", "clearly", "cleared"],
+                correctAnswer: 2,
+                explanation: "The adjective 'clear' incorrectly modifies the verb 'presented'. It must be changed to the adverb 'clearly' to describe how she presented."
+            },
+            {
+                question: "The team needs to simplification the procedure before launching the new system.",
+                options: ["simply", "simplify", "simple", "simplistic"],
+                correctAnswer: 1,
+                explanation: "The phrase 'needs to' must be followed by a base verb. The noun 'simplification' should be changed to the verb 'simplify'."
+            },
+            {
+                question: "His decision to leave the company was driven by intense personal active.",
+                options: ["actively", "activate", "activity", "activist"],
+                correctAnswer: 2,
+                explanation: "The adjective 'personal' must modify a noun. The adjective 'active' should be changed to the noun 'activity'."
+            },
+            {
+                question: "The manager spoke in a very parentally manner during the annual appraisal.",
+                options: ["parenting", "parental", "parent", "parenthood"],
+                correctAnswer: 1,
+                explanation: "The word modifies the noun 'manner', so it must be an adjective. 'Parentally' is an adverb and should be changed to 'parental'."
+            },
+            {
+                question: "We must energetic the youth by creating more community programmes.",
+                options: ["energy", "energise", "energised", "energetically"],
+                correctAnswer: 1,
+                explanation: "The modal verb 'must' requires a base verb to follow it. The adjective 'energetic' should be changed to the verb 'energise'."
+            },
+            {
+                question: "The sudden loss of signal caused chaosly among the flight controllers.",
+                options: ["chaotic", "chaos", "chaotical", "chaoticness"],
+                correctAnswer: 1,
+                explanation: "The verb 'caused' requires a direct object (a noun). 'Chaosly' is not a standard word; it should be replaced with the noun 'chaos'."
+            },
+            {
+                question: "The research team plans to deep their analysis of the survey results.",
+                options: ["deepen", "depth", "deeply", "deepness"],
+                correctAnswer: 0,
+                explanation: "The phrase 'plans to' must be followed by a verb. The adjective 'deep' should be changed to the verb 'deepen'."
+            },
+            {
+                question: "She handled the delicate negotiation very articulate and calmly.",
+                options: ["articulation", "articulately", "articulate", "articulatory"],
+                correctAnswer: 1,
+                explanation: "The word is part of a compound adverb phrase describing how she handled the negotiation ('articulately and calmly'). The adjective 'articulate' must become the adverb 'articulately'."
+            },
+            {
+                question: "The committee reached a decisiveness conclusion after hours of debate.",
+                options: ["decide", "decisively", "decision", "decisive"],
+                correctAnswer: 3,
+                explanation: "The word modifies the noun 'conclusion', so it must be an adjective. The noun 'decisiveness' should be changed to the adjective 'decisive'."
+            },
+            {
+                question: "They need to separate the items into two divide piles.",
+                options: ["division", "divisively", "divided", "divisibility"],
+                correctAnswer: 2,
+                explanation: "The word modifies the noun 'piles'. The verb 'divide' should be changed to the adjective form 'divided'."
+            },
+            {
+                question: "The architect proposed a beautifully design for the new library.",
+                options: ["beautiful", "beautify", "beauty", "beautician"],
+                correctAnswer: 0,
+                explanation: "The word modifies the noun 'design', so it must be an adjective. The adverb 'beautifully' should be changed to 'beautiful'."
+            },
+            {
+                question: "Regular exercise will strength your immune system over time.",
+                options: ["strong", "strengthen", "strongly", "strengthening"],
+                correctAnswer: 1,
+                explanation: "The modal 'will' must be followed by a base verb. The noun 'strength' should be changed to the verb 'strengthen'."
+            },
+                        {
+                question: "He left the documents on the desk accidental.",
+                options: ["accident", "accidentally", "accidents", "accidentalness"],
+                correctAnswer: 1,
+                explanation: "The word describes how he left the documents (a verb), so it must be an adverb. The adjective 'accidental' should be changed to 'accidentally'."
+            },
+            {
+                question: "We need a thorough analyse of the financial data before Friday.",
+                options: ["analytical", "analyse", "analysis", "analytically"],
+                correctAnswer: 2,
+                explanation: "The word follows the adjective 'thorough' and acts as the object of the sentence, so it must be a noun. The verb 'analyse' should be changed to 'analysis'."
+            },
+            {
+                question: "The sky began to dark rapidly as the storm approached.",
+                options: ["darkly", "darkness", "darken", "darkish"],
+                correctAnswer: 2,
+                explanation: "The phrase 'began to' requires a verb. The adjective 'dark' should be changed to the verb 'darken'."
+            },
+            {
+                question: "Please provide specify details regarding your complaint.",
+                options: ["specifically", "specifics", "specify", "specific"],
+                correctAnswer: 3,
+                explanation: "The word modifies the noun 'details', so it must be an adjective. The verb 'specify' should be changed to 'specific'."
+            },
+            {
+                question: "The executive gave a brief summarise of the yearly report.",
+                options: ["summary", "summarily", "summarisation", "summarised"],
+                correctAnswer: 0,
+                explanation: "The word follows the adjective 'brief' and acts as the direct object, so it must be a noun. The verb 'summarise' should be changed to the noun 'summary'."
+            },
+            {
+                question: "They always act very neighbour when welcoming new residents.",
+                options: ["neighbourly", "neighbourhood", "neighbouring", "neighbours"],
+                correctAnswer: 0,
+                explanation: "The word modifies their behaviour following the linking verb 'act'. The noun 'neighbour' should be changed to the adjective 'neighbourly'."
+            },
+            {
+                question: "The cat jumped quick onto the kitchen counter.",
+                options: ["quickness", "quicken", "quickly", "quicker"],
+                correctAnswer: 2,
+                explanation: "The word modifies the verb 'jumped', so it must be an adverb. The adjective 'quick' should be changed to 'quickly'."
+            },
+            {
+                question: "The government intends to modern the public transport network.",
+                options: ["modernise", "modernly", "modernity", "modernisation"],
+                correctAnswer: 0,
+                explanation: "The phrase 'intends to' requires a verb. The adjective 'modern' should be changed to the verb 'modernise'."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let hasAnswered = false;
+
+        // DOM Elements
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackSection = document.getElementById('feedback-section');
+        const feedbackStatus = document.getElementById('feedback-status');
+        const feedbackExplanation = document.getElementById('feedback-explanation');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const questionTracker = document.getElementById('question-tracker');
+        const scoreTracker = document.getElementById('score-tracker');
+        const quizSection = document.getElementById('quiz-section');
+        const resultsSection = document.getElementById('results-section');
+        const finalScore = document.getElementById('final-score');
+        const redoBtn = document.getElementById('redo-btn');
+
+        function loadQuestion() {
+            hasAnswered = false;
+            feedbackSection.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            optionsContainer.innerHTML = '';
+
+            const current = quizData[currentQuestion];
+            questionText.innerHTML = `"${current.question}"`;
+            
+            // Update Trackers
+            questionTracker.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+            progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+
+            // Generate Options
+            current.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left p-3 sm:p-4 rounded-lg border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 font-medium text-slate-700 transition-all text-sm sm:text-base';
+                btn.textContent = option;
+                btn.onclick = () => selectAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selectedIndex, selectedBtn) {
+            if (hasAnswered) return;
+            hasAnswered = true;
+
+            const current = quizData[currentQuestion];
+            const buttons = optionsContainer.children;
+            const isCorrect = selectedIndex === current.correctAnswer;
+
+            // Disable all buttons and show correct/incorrect styling
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+                buttons[i].classList.remove('hover:border-blue-400', 'hover:bg-blue-50');
+                
+                if (i === current.correctAnswer) {
+                    buttons[i].classList.add('border-green-500', 'bg-green-50', 'text-green-800');
+                } else if (i === selectedIndex && !isCorrect) {
+                    buttons[i].classList.add('border-red-500', 'bg-red-50', 'text-red-800');
+                } else {
+                    buttons[i].classList.add('opacity-50');
+                }
+            }
+
+            // Update Feedback Section
+            feedbackSection.classList.remove('hidden');
+            if (isCorrect) {
+                score++;
+                scoreTracker.textContent = `Score: ${score}`;
+                feedbackSection.classList.add('bg-green-100', 'border', 'border-green-200');
+                feedbackSection.classList.remove('bg-red-100', 'border-red-200');
+                feedbackStatus.textContent = "Correct!";
+                feedbackStatus.classList.add('text-green-700');
+                feedbackStatus.classList.remove('text-red-700');
+            } else {
+                feedbackSection.classList.add('bg-red-100', 'border', 'border-red-200');
+                feedbackSection.classList.remove('bg-green-100', 'border-green-200');
+                feedbackStatus.textContent = "Incorrect";
+                feedbackStatus.classList.add('text-red-700');
+                feedbackStatus.classList.remove('text-green-700');
+            }
+            feedbackExplanation.textContent = current.explanation;
+
+            // Show Next Button
+            nextBtn.classList.remove('hidden');
+        }
+
+        nextBtn.onclick = () => {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        };
+
+        function showResults() {
+            quizSection.classList.add('hidden');
+            resultsSection.classList.remove('hidden');
+            progressBar.style.width = '100%';
+            finalScore.textContent = score;
+        }
+
+        redoBtn.onclick = () => {
+            currentQuestion = 0;
+            score = 0;
+            scoreTracker.textContent = `Score: ${score}`;
+            quizSection.classList.remove('hidden');
+            resultsSection.classList.add('hidden');
+            loadQuestion();
+        };
+
+        // Initialize Quiz
+        loadQuestion();
+    </script>
+</body>
+</html>
