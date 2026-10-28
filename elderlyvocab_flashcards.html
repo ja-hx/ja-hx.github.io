@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elderly Theme Vocabulary Flashcards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Reset margin/padding for clean iframe embedding */
+            margin: 0;
+            padding: 0;
+            background-color: transparent; 
+        }
+
+        /* 3D Flip Card Styles */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Smooth transition for the flip */
+        #card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+
+        /* Prevent text highlighting when clicking rapidly */
+        .no-select {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Custom scrollbar for long text on small devices */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<!-- min-h-screen ensures it centers vertically in the iframe, bg-blue-50/50 gives a soft Notion-friendly look -->
+<body class="bg-blue-50/50 min-h-screen flex items-center justify-center p-4 sm:p-8">
+
+    <!-- Main Widget Container -->
+    <div class="w-full max-w-xl mx-auto flex flex-col gap-5 sm:gap-6">
+        
+        <!-- Header & Progress -->
+        <div class="flex flex-col gap-4">
+            <div class="flex justify-between items-center px-1 sm:px-2">
+                <h1 class="text-lg sm:text-xl font-bold text-blue-900">Vocabulary: The Elderly</h1>
+                <span id="progress-indicator" class="text-xs sm:text-sm font-semibold text-blue-700 bg-blue-100 px-3 py-1 rounded-full shadow-inner">
+                    1 / 20
+                </span>
+            </div>
+            
+            <!-- Mode Toggle -->
+            <div class="flex justify-center">
+                <div class="bg-blue-100/70 p-1 rounded-xl flex gap-1 w-full max-w-[300px]">
+                    <button id="btn-learn" class="flex-1 px-2 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white text-blue-700 shadow-sm transition-all" onclick="setMode('learn')">Learning Mode</button>
+                    <button id="btn-test" class="flex-1 px-2 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-blue-600 hover:text-blue-800 transition-all" onclick="setMode('test')">Testing Mode</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flashcard -->
+        <div id="flashcard" class="perspective-1000 w-full h-[300px] sm:h-[350px] cursor-pointer no-select group">
+            <div id="card-inner" class="relative w-full h-full transform-style-3d shadow-md hover:shadow-xl transition-shadow duration-300 rounded-2xl">
+                
+                <!-- Front of Card -->
+                <div id="card-front" class="absolute w-full h-full backface-hidden bg-white border-2 border-blue-100 rounded-2xl overflow-hidden">
+                    <!-- Content injected by JS -->
+                </div>
+
+                <!-- Back of Card -->
+                <div id="card-back" class="absolute w-full h-full backface-hidden bg-white border-2 border-blue-200 rounded-2xl rotate-y-180 overflow-hidden">
+                    <!-- Content injected by JS -->
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex justify-between items-center gap-2 sm:gap-3">
+            <button onclick="prevCard()" class="flex-1 bg-white hover:bg-slate-50 text-blue-700 border border-blue-200 font-semibold py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl shadow-sm transition-colors duration-200 flex justify-center items-center gap-1 sm:gap-2 text-sm sm:text-base">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
+                Prev
+            </button>
+            
+            <button onclick="shuffleDeck()" class="flex-none bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold p-2.5 sm:p-3 rounded-xl shadow-sm transition-colors duration-200" title="Shuffle Deck">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+            </button>
+
+            <button onclick="nextCard()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl shadow-md transition-colors duration-200 flex justify-center items-center gap-1 sm:gap-2 text-sm sm:text-base">
+                Next
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Vocabulary Data (20 words)
+        const vocabulary = [
+            { word: "Ageing population", definition: "A demographic trend where the proportion of elderly people in a population increases significantly.", sentence: "Many developed nations are facing the economic challenges of an ageing population as birth rates decline." },
+            { word: "Silver economy", definition: "The system of economic activities, products, and services designed to meet the needs of older people.", sentence: "Businesses are increasingly investing in the silver economy by designing accessible technologies for senior citizens." },
+            { word: "Geriatric", definition: "Relating to old age or the healthcare and treatment of elderly people.", sentence: "Hospitals need more specialized doctors to meet the growing demand for geriatric care." },
+            { word: "Intergenerational gap", definition: "A lack of understanding or communication between younger and older generations due to differing experiences and values.", sentence: "Community programmes aim to bridge the intergenerational gap by bringing teenagers and seniors together for storytelling sessions." },
+            { word: "Autonomy", definition: "The right or condition of self-government; the freedom to make one's own decisions independently.", sentence: "Assisted living facilities should aim to protect the autonomy of residents by allowing them to maintain daily routines." },
+            { word: "Ageism", definition: "Prejudice or discrimination on the grounds of a person's age.", sentence: "Combatting ageism in the workplace is essential so older workers are not overlooked for promotion based on stereotyping." },
+            { word: "Infirmity", definition: "Physical or mental weakness brought on by old age or illness.", sentence: "Despite his physical infirmity, the retired professor maintained a sharp mind and continued writing books." },
+            { word: "Social isolation", definition: "A state of complete or near-complete lack of contact between an individual and society.", sentence: "Without family nearby, many senior citizens experience severe social isolation, which negatively impacts their mental health." },
+            { word: "Cognitive decline", definition: "The deterioration of mental processes such as memory, language, and problem-solving abilities.", sentence: "Regular mental exercises like reading and chess can help slow down cognitive decline in older adults." },
+            { word: "Mobility impairment", definition: "A physical condition that limits or restricts an individual's ability to move independently.", sentence: "Public transport should be upgraded with ramps and low steps to assist commuters with mobility impairment." },
+            { word: "Dependency", definition: "The state of relying on someone or something else for support, care, or financial aid.", sentence: "Chronic illness in old age often leads to physical dependency on caregivers for daily tasks." },
+            { word: "Frailty", definition: "The condition of being weak and delicate, especially due to old age.", sentence: "Due to her increasing frailty, she found it difficult to carry heavy groceries upstairs." },
+            { word: "Caregiver burnout", definition: "A state of physical, emotional, and mental exhaustion suffered by individuals caring for elderly or sick family members.", sentence: "Providing round-the-clock assistance without adequate support often leads to severe caregiver burnout." },
+            { word: "Sedentary lifestyle", definition: "A way of living that involves little or no physical activity.", sentence: "Encouraging light daily exercise helps senior citizens avoid the health risks associated with a sedentary lifestyle." },
+            { word: "Active ageing", definition: "The process of optimizing opportunities for health, participation, and security to enhance quality of life as people age.", sentence: "Local councils promote active ageing by providing free fitness classes and social clubs for pensioners." },
+            { word: "Assistive technology", definition: "Devices, equipment, or software designed to maintain or improve an individual's independence and functional capabilities.", sentence: "Smart home sensors and emergency alert buttons are forms of assistive technology that allow elderly people to live safely at home." },
+            { word: "Institutional care", definition: "Professional residential care provided within a residential care home or nursing facility.", sentence: "While institutional care guarantees professional medical supervision, many seniors prefer remaining in their own homes for as long as possible." },
+            { word: "Subsidised healthcare", definition: "Medical care partially or fully funded by the government or an organization to reduce costs for patients.", sentence: "Providing subsidised healthcare ensures that vulnerable pensioners receive essential prescriptions without financial strain." },
+            { word: "Age-friendly infrastructure", definition: "Public spaces, buildings, and transport systems built or adapted to be easily accessible to older citizens.", sentence: "The city introduced age-friendly infrastructure, including longer pedestrian crossing times and more public benches." },
+            { word: "Multi-generational living", definition: "A household setup where two or more adult generations from the same family live together under one roof.", sentence: "Multi-generational living allows younger family members to provide daily support to ageing relatives while sharing household expenses." }
+        ];
+
+        // State Variables
+        let deckOrder = [];
+        let currentIndex = 0;
+        let isFlipped = false;
+        let isTestingMode = false;
+
+        // DOM Elements
+        const cardContainer = document.getElementById('flashcard');
+        const cardInner = document.getElementById('card-inner');
+        const cardFront = document.getElementById('card-front');
+        const cardBack = document.getElementById('card-back');
+        const progressEl = document.getElementById('progress-indicator');
+        const btnLearn = document.getElementById('btn-learn');
+        const btnTest = document.getElementById('btn-test');
+
+        // Initialize Deck
+        function init() {
+            deckOrder = Array.from(Array(vocabulary.length).keys());
+            renderCard();
+        }
+
+        // Update the DOM with the current card's data
+        function renderCard() {
+            const vocabIndex = deckOrder[currentIndex];
+            const item = vocabulary[vocabIndex];
+
+            if (isFlipped) {
+                isFlipped = false;
+                cardInner.classList.remove('rotate-y-180');
+                
+                // Wait for the flip animation to finish before changing text
+                setTimeout(() => {
+                    updateText(item);
+                }, 300);
+            } else {
+                updateText(item);
+            }
+
+            // Update Progress
+            progressEl.innerText = `${currentIndex + 1} / ${vocabulary.length}`;
+        }
+
+        function updateText(item) {
+            const wordHTML = `
+                <div class="flex flex-col items-center justify-center h-full p-4 sm:p-8 text-center relative">
+                    <span class="text-xs sm:text-sm uppercase tracking-widest text-blue-400 mb-2 sm:mb-4 font-semibold">Term</span>
+                    <h2 class="text-2xl sm:text-4xl font-bold text-blue-800 leading-tight">${item.word}</h2>
+                    <p class="absolute bottom-4 sm:bottom-6 text-[10px] sm:text-xs text-slate-400 font-medium tracking-wide">Click to flip</p>
+                </div>
+            `;
+            
+            const definitionHTML = `
+                <div class="flex flex-col justify-center h-full p-5 sm:p-8 custom-scrollbar overflow-y-auto relative">
+                    <div class="mb-3 sm:mb-4">
+                        <h3 class="text-[10px] sm:text-sm uppercase tracking-widest text-blue-500 font-semibold mb-1 sm:mb-2">Definition</h3>
+                        <p class="text-slate-700 text-sm sm:text-lg leading-relaxed">${item.definition}</p>
+                    </div>
+                    ${!isTestingMode ? `
+                    <div class="mt-1 sm:mt-2 pt-3 sm:pt-4 border-t border-slate-100">
+                        <h3 class="text-[10px] sm:text-sm uppercase tracking-widest text-blue-500 font-semibold mb-1 sm:mb-2">Sample Sentence</h3>
+                        <p class="text-blue-900 text-sm sm:text-base font-medium italic border-l-4 border-blue-400 pl-3 sm:pl-4 py-1 leading-relaxed">${item.sentence}</p>
+                    </div>` : ''}
+                    <p class="text-center mt-4 text-[10px] sm:text-xs text-slate-400 font-medium tracking-wide">Click to flip</p>
+                </div>
+            `;
+
+            if (isTestingMode) {
+                cardFront.innerHTML = definitionHTML;
+                cardBack.innerHTML = wordHTML;
+            } else {
+                cardFront.innerHTML = wordHTML;
+                cardBack.innerHTML = definitionHTML;
+            }
+        }
+
+        function setMode(mode) {
+            isTestingMode = (mode === 'test');
+            
+            // Update Toggle UI styles
+            if (isTestingMode) {
+                btnTest.className = "flex-1 px-2 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white text-blue-700 shadow-sm transition-all";
+                btnLearn.className = "flex-1 px-2 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-blue-600 hover:text-blue-800 transition-all";
+            } else {
+                btnLearn.className = "flex-1 px-2 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white text-blue-700 shadow-sm transition-all";
+                btnTest.className = "flex-1 px-2 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-blue-600 hover:text-blue-800 transition-all";
+            }
+            
+            // Reset to front face and re-render
+            if (isFlipped) {
+                isFlipped = false;
+                cardInner.classList.remove('rotate-y-180');
+                setTimeout(() => { renderCard(); }, 300);
+            } else {
+                renderCard();
+            }
+        }
+
+        // Event Listener for Flipping
+        cardContainer.addEventListener('click', () => {
+            isFlipped = !isFlipped;
+            if (isFlipped) {
+                cardInner.classList.add('rotate-y-180');
+            } else {
+                cardInner.classList.remove('rotate-y-180');
+            }
+        });
+
+        // Navigation Functions
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % vocabulary.length;
+            renderCard();
+        }
+
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + vocabulary.length) % vocabulary.length;
+            renderCard();
+        }
+
+        // Fisher-Yates Shuffle Algorithm
+        function shuffleDeck() {
+            for (let i = deckOrder.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deckOrder[i], deckOrder[j]] = [deckOrder[j], deckOrder[i]];
+            }
+            currentIndex = 0; 
+            renderCard();
+        }
+
+        // Run on load
+        window.onload = init;
+
+    </script>
+</body>
+</html>
