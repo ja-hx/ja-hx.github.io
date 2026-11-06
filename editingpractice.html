@@ -4,128 +4,199 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>O Level English Editing Practice</title>
+    <!-- Modern UI Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary: #2563eb;
+            --primary-hover: #1d4ed8;
             --bg: #f8fafc;
-            --text: #1e293b;
-            --border: #cbd5e1;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
             --error: #ef4444;
-            --success: #22c55e;
+            --error-bg: #fef2f2;
+            --error-text: #991b1b;
+            --success: #10b981;
+            --success-bg: #ecfdf5;
+            --success-text: #065f46;
             --selection-bg: #eff6ff;
+            --selection-border: #3b82f6;
         }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.8;
-            padding: 20px;
-            max-width: 1100px;
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 24px 16px;
+            max-width: 1050px;
             margin: 0 auto;
-/* Enables smooth touch scrolling and interaction on iOS */
-  -webkit-overflow-scrolling: touch;
-  /* Prevents iOS from treating taps as text selections */
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-  /* Ensures touch actions trigger script events instead of browser gestures */
-  touch-action: manipulation;
-
-
+            -webkit-user-select: none;
+            user-select: none;
         }
+
         .container {
-            background: white;
-            padding: 20px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            overflow-x: auto;
+            background: var(--surface);
+            padding: 36px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            border: 1px solid var(--border);
+            width: 100%;
+            box-sizing: border-box;
         }
-        h2 { text-align: center; margin-bottom: 5px; }
+
+        h2 { 
+            text-align: center; 
+            margin-bottom: 6px; 
+            font-size: 1.65rem; 
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
         .practice-nav-top {
             text-align: center;
-            color: #64748b;
-            margin-bottom: 20px;
-            font-size: 0.9em;
+            color: var(--primary);
+            margin-bottom: 24px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
+
         .instructions {
-            background: #f1f5f9;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            font-size: 0.95em;
+            background: #f8fafc;
+            border-left: 4px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 4px 10px 10px 4px;
+            margin-bottom: 28px;
+            font-size: 0.92rem;
+            color: #475569;
         }
-        
+
+        #exercise-container {
+            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 12px;
+        }
+
+        .exercise-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-width: max-content; 
+        }
+
         .text-row {
             display: flex;
             align-items: center;
-            margin-bottom: 12px;
-            border-bottom: 1px dashed var(--border);
-            padding-bottom: 8px;
-            width: 100%;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+            min-width: 880px; 
+            flex-wrap: nowrap;
         }
-       .text-content {
-    width: 100%;
-    max-width: 680px; 
-    font-size: 0.95rem;
-    padding-right: 15px;
-    line-height: 2; /* Adds breathing room when text wraps */
-}
-.interaction-area {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 350px; 
-}
+
+        .text-content {
+            font-size: 0.98rem;
+            color: #334155;
+            white-space: nowrap; 
+            flex-grow: 1;
+        }
+
+        .interaction-area {
+            display: flex;
+            flex-direction: column;
+            width: 320px; 
+            flex-shrink: 0;
+        }
+
         .input-group {
             display: flex;
-            gap: 10px;
             align-items: center;
-            width: 100%; 
+            gap: 10px;
         }
-        
+
+        /* 
+         * FIX: Negative margin offsets the padding. 
+         * This keeps the words spaced normally while retaining the highlight box.
+         */
         .word {
             cursor: pointer;
-            padding: 2px 3px;
+            padding: 2px 4px;
+            margin: 0 -3px; 
             border-radius: 4px;
-            transition: all 0.2s;
+            transition: all 0.1s ease;
+            position: relative;
         }
-        .word:hover { background: #e2e8f0; }
+        .word:hover { 
+            background: #e2e8f0; 
+            color: var(--text-main);
+            z-index: 1;
+        }
         .word.selected {
-            border: 2px solid var(--primary);
             background: var(--selection-bg);
+            color: var(--selection-border);
+            font-weight: 600;
+            box-shadow: 0 0 0 1.5px var(--selection-border);
+            z-index: 2;
         }
+
         .line-num {
-            font-weight: bold;
-            width: 25px;
-            color: #64748b;
+            font-weight: 600;
+            color: var(--text-muted);
             text-align: right;
+            width: 24px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
         }
+
         input[type="text"] {
-            width: 110px;
-            padding: 5px 8px;
+            width: 120px;
+            padding: 6px 10px;
             border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 0.95rem;
-            font-weight: bold;
-            transition: all 0.3s;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+            transition: all 0.2s;
+            outline: none;
+            background: #ffffff;
+            flex-shrink: 0;
         }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
         input[type="text"]:disabled {
             background-color: #f1f5f9;
+            color: #94a3b8;
             cursor: not-allowed;
+            border-color: var(--border);
         }
+
         .no-error-btn {
-            padding: 5px 10px;
-            background: #e2e8f0;
+            padding: 6px 12px;
+            background: #ffffff;
             border: 1px solid var(--border);
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-weight: bold;
-            min-width: 45px;
+            font-weight: 600;
+            color: var(--text-muted);
             transition: all 0.2s;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            flex-shrink: 0;
         }
         .no-error-btn:hover {
-            background: #cbd5e1;
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: var(--text-main);
         }
         .no-error-btn.active {
             background: var(--success);
@@ -134,74 +205,73 @@
         }
         
         .status-indicator {
-            font-weight: bold;
-            font-size: 0.9em;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: none;
+            white-space: nowrap;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .status-indicator.correct { 
+            color: var(--success-text); 
+            background: var(--success-bg);
+        }
+        .status-indicator.wrong { 
+            color: var(--error-text); 
+            background: var(--error-bg);
+        }
+
+        .feedback {
+            margin-top: 4px;
+            margin-left: 34px;
+            font-size: 0.82rem;
             display: none;
         }
-        .status-indicator.correct { color: var(--success); }
-        .status-indicator.wrong { color: var(--error); }
+        .feedback-reason { 
+            color: var(--error-text); 
+            background: var(--error-bg);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: 500;
+        }
 
         .btn-container {
-            margin-top: 30px;
+            margin-top: 36px;
             display: flex;
-            gap: 15px;
+            gap: 12px;
             justify-content: center;
             flex-wrap: wrap;
         }
+
         button.action-btn {
             padding: 10px 24px;
-            font-size: 1.05em;
+            font-size: 0.95rem;
             cursor: pointer;
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-weight: bold;
-            transition: background 0.2s;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
-        .submit-btn { background: var(--primary); }
-        .submit-btn:hover { background: #1d4ed8; }
-        .retry-btn { background: #64748b; display: none; }
-        .retry-btn:hover { background: #475569; }
-        .nav-btn { background: #0f766e; }
-        .nav-btn:hover { background: #115e59; }
-        .nav-btn:disabled { background: #cbd5e1; cursor: not-allowed; color: #94a3b8; }
-        
-        .feedback {
-            margin-top: 4px;
-            font-size: 0.85em;
-            display: none;
-            width: 100%;
-            padding-left: 35px;
-        }
-        .feedback-reason { color: #475569; font-style: italic; display: block; }
+
+        .submit-btn { background: var(--primary); color: white; }
+        .submit-btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
+        .retry-btn { background: #ffffff; color: var(--text-main); border-color: var(--border); display: none; }
+        .retry-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
+        .nav-btn { background: #ffffff; color: var(--text-main); border-color: var(--border); }
+        .nav-btn:hover:not(:disabled) { background: #f8fafc; border-color: #cbd5e1; }
+        .nav-btn:disabled { background: #f1f5f9; cursor: not-allowed; color: #94a3b8; box-shadow: none; border-color: transparent;}
         
         #results-summary {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 6px;
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 10px;
             text-align: center;
-            font-size: 1.2em;
-            font-weight: bold;
+            font-size: 1.15rem;
+            font-weight: 700;
             display: none;
         }
-
-@media (max-width: 768px) {
-    .text-row {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .text-content {
-        max-width: 100%;
-        margin-bottom: 12px;
-    }
-    .interaction-area {
-        max-width: 100%;
-    }
-    .input-group {
-        flex-wrap: wrap;
-    }
-}
-
     </style>
 </head>
 <body>
@@ -217,7 +287,9 @@
         - Note: Capitalisation matters for your answers!
     </div>
 
-    <div id="exercise-container"></div>
+    <div id="exercise-container">
+        <div class="exercise-wrapper" id="exercise-wrapper"></div>
+    </div>
 
     <div class="btn-container">
         <button class="action-btn nav-btn" id="prev-btn" onclick="loadPrevPractice()">⬅️ Previous</button>
@@ -381,7 +453,7 @@
                 { text: "environment but stop investing time in an activity that has little to offer.", lineNum: "8", errorWord: "but", correctWord: ["and"], reason: "Conjunction", type: "error" },
                 { text: "However, people seem increasing intolerant of it. Psychology Professor", lineNum: "9", errorWord: "increasing", correctWord: ["increasingly"], reason: "Word Form (Adverb)", type: "error" },
                 { text: "Michael Inzlicht, has the piece of advice: Lean into it. Sit with the discomfort of", lineNum: "10", errorWord: "the", correctWord: ["a"], reason: "Article", type: "error" },
-{ text: "boredom for a bit before flitting to something else.", lineNum: ""}
+                { text: "boredom for a bit before flitting to something else.", lineNum: ""}
             ]
         },
         {
@@ -432,7 +504,7 @@
                 { text: "creates an identity. Fans go to the concerts not solely to listen to", lineNum: "8", type: "tick" },
                 { text: "her music but also for an experience of being a part of a social", lineNum: "9", errorWord: "a", correctWord: ["the"], reason: "Article", type: "error" },
                 { text: "group so that they feel connected; not only to the artiste and to", lineNum: "10", errorWord: "and", correctWord: ["but"], reason: "Conjunction", type: "error" },
-{ text: "other people who appreciate the performer as well.", lineNum: "" }
+                { text: "other people who appreciate the performer as well.", lineNum: "" }
 
             ]
         },
@@ -453,7 +525,6 @@
                 { text: "whether in rose-scented lattes or even as a pizza topping.", lineNum: "" }
             ]
         },
-
         {
             title: "Practice 14: National Day (Evergreen 2025)",
             data: [
@@ -471,8 +542,7 @@
                 { text: "Ultimately, National Day serves as a reminder of our unity and shared progress.", lineNum: "" }
             ]
         },
-
-      {
+        {
             title: "Practice 15: Elderly & Technology (PLMGS 2025)",
             data: [
                 { text: "Singapore’s seniors are increasingly adopting technology for their well-being.", lineNum: "" },
@@ -495,7 +565,7 @@
     let userSelections = {};
 
     function initExercise() {
-        const container = document.getElementById('exercise-container');
+        const container = document.getElementById('exercise-wrapper');
         container.innerHTML = '';
         userSelections = {};
         
@@ -505,8 +575,6 @@
 
         textData.forEach((row, index) => {
             const rowDiv = document.createElement('div');
-            rowDiv.style.display = 'flex';
-            rowDiv.style.flexDirection = 'column';
             
             if (row.lineNum === "") {
                 rowDiv.innerHTML = `
@@ -533,7 +601,7 @@
                     <div class="interaction-area">
                         <div class="input-group">
                             <span class="line-num">${row.lineNum}</span>
-                            <input type="text" id="input-${index}" placeholder="Correction..." oninput="clearTick(${index})">
+                            <input type="text" id="input-${index}" placeholder="Correction" oninput="clearTick(${index})">
                             <button class="no-error-btn" id="btn-tick-${index}" onclick="toggleTick(${index})">✓</button>
                             <span class="status-indicator" id="status-${index}"></span>
                         </div>
@@ -637,7 +705,7 @@
             const selection = userSelections[index];
             
             feedbackEl.style.display = 'block';
-            statusEl.style.display = 'inline';
+            statusEl.style.display = 'inline-block';
 
             let isCorrect = false;
             let reasonHtml = "";
@@ -661,10 +729,10 @@
                 if (cleanSelection === cleanErrorWord && isExactMatch) {
                     isCorrect = true;
                 } else {
-                    reasonHtml = `<span class="feedback-reason">Error was "${cleanErrorWord}" -> "${primaryCorrect}" (${row.reason})</span>`;
+                    reasonHtml = `<span class="feedback-reason">Error was "${cleanErrorWord}" → "${primaryCorrect}" (${row.reason})</span>`;
                     
                     if (cleanSelection === cleanErrorWord && isCaseInsensitiveMatch && !isExactMatch) {
-                        reasonHtml = `<span class="feedback-reason">It must be strictly capitalized as: "${primaryCorrect}"</span>`;
+                        reasonHtml = `<span class="feedback-reason">Strictly capitalize: "${primaryCorrect}"</span>`;
                     } else if (cleanSelection !== cleanErrorWord && isExactMatch) {
                          reasonHtml = `<span class="feedback-reason">You must circle "${cleanErrorWord}"</span>`;
                     }
@@ -674,24 +742,26 @@
             if (isCorrect) {
                 score++;
                 statusEl.className = "status-indicator correct";
-                statusEl.innerText = "✓ Correct";
+                statusEl.innerText = "✓";
                 feedbackEl.innerHTML = ""; 
                 
                 if (!selection.isTick && inputVal !== "") {
-                    inputEl.style.color = 'var(--success)';
+                    inputEl.style.color = 'var(--success-text)';
                     inputEl.style.borderColor = 'var(--success)';
+                    inputEl.style.backgroundColor = 'var(--success-bg)';
                 } else if (selection.isTick) {
                     tickBtn.style.backgroundColor = 'var(--success)';
                     tickBtn.style.borderColor = 'var(--success)';
                 }
             } else {
                 statusEl.className = "status-indicator wrong";
-                statusEl.innerText = "✗ Wrong";
+                statusEl.innerText = "✕";
                 feedbackEl.innerHTML = reasonHtml;
                 
                 if (!selection.isTick && inputVal !== "") {
-                    inputEl.style.color = 'var(--error)';
+                    inputEl.style.color = 'var(--error-text)';
                     inputEl.style.borderColor = 'var(--error)';
+                    inputEl.style.backgroundColor = 'var(--error-bg)';
                 } else if (selection.isTick) {
                     tickBtn.style.backgroundColor = 'var(--error)';
                     tickBtn.style.borderColor = 'var(--error)';
@@ -703,8 +773,9 @@
         const summary = document.getElementById('results-summary');
         summary.style.display = 'block';
         summary.innerHTML = `You scored ${score} out of ${totalQuestions} marks.`;
-        summary.style.backgroundColor = score >= 5 ? '#dcfce7' : '#fee2e2';
-        summary.style.color = score >= 5 ? '#166534' : '#991b1b';
+        summary.style.backgroundColor = score >= 5 ? 'var(--success-bg)' : 'var(--error-bg)';
+        summary.style.color = score >= 5 ? 'var(--success-text)' : 'var(--error-text)';
+        summary.style.border = `1px solid ${score >= 5 ? 'var(--success)' : 'var(--error)'}`;
 
         document.getElementById('submit-btn').style.display = 'none';
         document.getElementById('retry-btn').style.display = 'block';
