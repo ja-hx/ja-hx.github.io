@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammarathon</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    .progress-bar { transition: width 0.1s linear; }
+    body { -webkit-font-smoothing: antialiased; }
+  </style>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4 font-sans text-gray-800">
+  <div id="root" class="w-full max-w-xl"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useCallback, useRef } = React;
+
+    // Categorized Grammar Questions (Trimmed based on feedback)
+    const questions = [
+      { q: "The farmer bought three new ___ for the farm.", o: ["sheep", "sheeps", "sheepes", "shoop"], a: 0, c: "Nouns" },
+      { q: "Please put the ___ on the top shelf.", o: ["boxs", "boxes", "box", "boxies"], a: 1, c: "Nouns" },
+      { q: "The ___ are playing in the garden.", o: ["childs", "childrens", "children", "child"], a: 2, c: "Nouns" },
+      { q: "We need more ___ for this project.", o: ["informations", "information", "informating", "informed"], a: 1, c: "Nouns" },
+      { q: "There are many ___ in the pond.", o: ["fish", "fishes", "fishs", "foosh"], a: 0, c: "Nouns" },
+      { q: "She brushed her ___ before bed.", o: ["tooths", "teeths", "teeth", "tooth"], a: 2, c: "Nouns" },
+      { q: "I saw a flock of ___ flying south.", o: ["gooses", "geese", "geeses", "goose"], a: 1, c: "Nouns" },
+      { q: "He is carrying two heavy ___.", o: ["luggage", "luggages", "luggaging", "luggage's"], a: 0, c: "Nouns" },
+      { q: "The ___ were scurrying across the floor.", o: ["mouse", "mouses", "mice", "mices"], a: 2, c: "Nouns" },
+      { q: "She bought two ___ of bread.", o: ["loafs", "loaves", "loaf", "loave"], a: 1, c: "Nouns" },
+      { q: "Yesterday, she ___ to the store.", o: ["goes", "went", "gone", "going"], a: 1, c: "Tense" },
+      { q: "I ___ my homework right now.", o: ["do", "did", "am doing", "done"], a: 2, c: "Tense" },
+      { q: "He ___ a new car next week.", o: ["buys", "bought", "will buy", "buying"], a: 2, c: "Tense" },
+      { q: "They ___ in London since 2015.", o: ["live", "lived", "have lived", "living"], a: 2, c: "Tense" },
+      { q: "By the time I arrived, the train ___.", o: ["left", "has left", "had left", "leaves"], a: 2, c: "Tense" },
+      { q: "She usually ___ coffee in the morning.", o: ["drinks", "drink", "drinking", "drank"], a: 0, c: "Tense" },
+      { q: "We ___ a movie when the power went out.", o: ["watch", "watched", "were watching", "have watched"], a: 2, c: "Tense" },
+      { q: "I ___ him tomorrow at noon.", o: ["am meeting", "meet", "met", "have met"], a: 0, c: "Tense" },
+      { q: "It ___ every day last week.", o: ["rains", "rained", "raining", "has rained"], a: 1, c: "Tense" },
+      { q: "By next year, I ___ my degree.", o: ["finish", "finished", "will have finished", "am finishing"], a: 2, c: "Tense" },
+      { q: "I ___ waiting here for two hours.", o: ["am", "have been", "was", "had"], a: 1, c: "Aspect" },
+      { q: "She ___ just finished her dinner.", o: ["has", "is", "had", "was"], a: 0, c: "Aspect" },
+      { q: "They ___ playing football when it started raining.", o: ["are", "have been", "were", "had been"], a: 2, c: "Aspect" },
+      { q: "He ___ already left by the time we called.", o: ["has", "had", "was", "is"], a: 1, c: "Aspect" },
+      { q: "I ___ reading this book all day.", o: ["am", "have been", "was", "had"], a: 1, c: "Aspect" },
+      { q: "We ___ working on this project currently.", o: ["are", "have", "were", "do"], a: 0, c: "Aspect" },
+      { q: "She ___ never seen the ocean before.", o: ["is", "has", "was", "had"], a: 1, c: "Aspect" },
+      { q: "By 5 PM, they ___ been driving for six hours.", o: ["will have", "have", "are", "had"], a: 0, c: "Aspect" },
+      { q: "The kids ___ sleeping right now.", o: ["are", "were", "have been", "do"], a: 0, c: "Aspect" },
+      { q: "I ___ just realized the answer.", o: ["am", "have", "was", "had"], a: 1, c: "Aspect" },
+      { q: "The cake ___ by Mary yesterday.", o: ["baked", "was baked", "is baking", "bakes"], a: 1, c: "Passive/Active" },
+      { q: "Millions of people ___ the internet every day.", o: ["use", "are used", "uses", "is using"], a: 0, c: "Passive/Active" },
+      { q: "The letter ___ delivered tomorrow.", o: ["will", "will be", "is", "has been"], a: 1, c: "Passive/Active" },
+      { q: "The thief ___ by the police last night.", o: ["caught", "was caught", "is caught", "catches"], a: 1, c: "Passive/Active" },
+      { q: "Shakespeare ___ Romeo and Juliet.", o: ["wrote", "was written", "writes", "is written"], a: 0, c: "Passive/Active" },
+      { q: "My car ___ at the moment.", o: ["repairs", "is repairing", "is being repaired", "repaired"], a: 2, c: "Passive/Active" },
+      { q: "They ___ a new bridge across the river.", o: ["are building", "are built", "builds", "is built"], a: 0, c: "Passive/Active" },
+      { q: "The meeting ___ canceled due to rain.", o: ["has", "was", "is being", "will"], a: 1, c: "Passive/Active" },
+      { q: "This house ___ in 1990.", o: ["built", "was built", "is built", "builds"], a: 1, c: "Passive/Active" },
+      { q: "The chef ___ the meal right now.", o: ["is prepared", "prepares", "is preparing", "was prepared"], a: 2, c: "Passive/Active" },
+      { q: "The group of students ___ going on a trip.", o: ["is", "are", "were", "am"], a: 0, c: "Subject-Verb Agreement" },
+      { q: "Either the cat or the dogs ___ making that noise.", o: ["is", "are", "was", "am"], a: 1, c: "Subject-Verb Agreement" },
+      { q: "Everyone ___ to be successful.", o: ["want", "wants", "wanting", "wanted"], a: 1, c: "Subject-Verb Agreement" },
+      { q: "The news ___ good today.", o: ["are", "is", "were", "am"], a: 1, c: "Subject-Verb Agreement" },
+      { q: "Neither of the boys ___ the answer.", o: ["know", "knows", "knowing", "known"], a: 1, c: "Subject-Verb Agreement" },
+      { q: "The committee ___ decided on the budget.", o: ["have", "has", "are", "is"], a: 1, c: "Subject-Verb Agreement" },
+      { q: "Mathematics ___ my favorite subject.", o: ["are", "is", "were", "be"], a: 1, c: "Subject-Verb Agreement" },
+      { q: "My scissors ___ broken.", o: ["is", "are", "was", "be"], a: 1, c: "Subject-Verb Agreement" },
+      { q: "A pair of shoes ___ left outside.", o: ["was", "were", "are", "have been"], a: 0, c: "Subject-Verb Agreement" },
+      { q: "Fifty dollars ___ too much for that shirt.", o: ["are", "is", "were", "be"], a: 1, c: "Subject-Verb Agreement" },
+      { q: "She smiled ___ at the camera.", o: ["happy", "happily", "happiness", "happier"], a: 1, c: "Word Classes" },
+      { q: "The instructions were very ___.", o: ["clear", "clearly", "clearness", "cleared"], a: 0, c: "Word Classes" },
+      { q: "He runs very ___.", o: ["fast", "fastly", "fastness", "faster"], a: 0, c: "Word Classes" },
+      { q: "She has a lot of ___ in her abilities.", o: ["confident", "confidently", "confidence", "confidant"], a: 2, c: "Word Classes" },
+      { q: "It was a highly ___ meeting.", o: ["produce", "productive", "productively", "production"], a: 1, c: "Word Classes" },
+      { q: "He spoke in a ___ voice.", o: ["quiet", "quietly", "quietness", "quieting"], a: 0, c: "Word Classes" },
+      { q: "The ___ of the new building is amazing.", o: ["architect", "architecture", "architectural", "architecturally"], a: 1, c: "Word Classes" },
+      { q: "She looked ___ at the broken vase.", o: ["sad", "sadly", "sadness", "saddened"], a: 1, c: "Word Classes" },
+      { q: "This is a ___ good idea.", o: ["real", "really", "reality", "realism"], a: 1, c: "Word Classes" },
+      { q: "The dog barked ___.", o: ["loud", "loudly", "loudness", "louder"], a: 1, c: "Word Classes" },
+      { q: "The cat is hiding ___ the bed.", o: ["on", "under", "in", "at"], a: 1, c: "Prepositions" },
+      { q: "I will meet you ___ 5 PM.", o: ["on", "in", "at", "by"], a: 2, c: "Prepositions" },
+      { q: "She was born ___ October.", o: ["in", "on", "at", "since"], a: 0, c: "Prepositions" },
+      { q: "The picture hangs ___ the fireplace.", o: ["above", "under", "in", "at"], a: 0, c: "Prepositions" },
+      { q: "He is interested ___ learning Spanish.", o: ["on", "in", "at", "about"], a: 1, c: "Prepositions" },
+      { q: "I am allergic ___ peanuts.", o: ["with", "to", "for", "on"], a: 1, c: "Prepositions" },
+      { q: "They walked ___ the park.", o: ["through", "on", "at", "above"], a: 0, c: "Prepositions" },
+      { q: "She apologized ___ her mistake.", o: ["to", "for", "about", "on"], a: 1, c: "Prepositions" },
+      { q: "The book is ___ the table.", o: ["on", "in", "at", "by"], a: 0, c: "Prepositions" },
+      { q: "He depends ___ his parents.", o: ["on", "in", "at", "with"], a: 0, c: "Prepositions" },
+      { q: "I wanted to go out, ___ it started raining.", o: ["and", "but", "so", "because"], a: 1, c: "Conjunctions" },
+      { q: "She is smart ___ hardworking.", o: ["and", "but", "or", "so"], a: 0, c: "Conjunctions" },
+      { q: "You can have tea ___ coffee.", o: ["and", "but", "or", "so"], a: 2, c: "Conjunctions" },
+      { q: "I stayed home ___ I was sick.", o: ["so", "because", "but", "and"], a: 1, c: "Conjunctions" },
+      { q: "___ it was late, we kept working.", o: ["Although", "Because", "Since", "If"], a: 0, c: "Conjunctions" },
+      { q: "We will leave ___ he arrives.", o: ["as soon as", "unless", "but", "so"], a: 0, c: "Conjunctions" },
+      { q: "I don't know ___ he will come or not.", o: ["weather", "whether", "if", "that"], a: 1, c: "Conjunctions" },
+      { q: "I will call you ___ I finish my work.", o: ["when", "unless", "although", "but"], a: 0, c: "Conjunctions" },
+      { q: "She didn't study, ___ she failed.", o: ["so", "but", "because", "although"], a: 0, c: "Conjunctions" },
+      { q: "You won't pass ___ you study.", o: ["unless", "if", "because", "since"], a: 0, c: "Conjunctions" },
+      { q: "I saw ___ elephant at the zoo.", o: ["a", "an", "the", "no article"], a: 1, c: "Articles" },
+      { q: "She is ___ best singer in the choir.", o: ["a", "an", "the", "no article"], a: 2, c: "Articles" },
+      { q: "I need to buy ___ new car.", o: ["a", "an", "the", "no article"], a: 0, c: "Articles" },
+      { q: "___ books on the table are mine.", o: ["This", "That", "These", "There"], a: 2, c: "Determiners" },
+      { q: "Could you pass me ___ pen?", o: ["that", "those", "these", "this one"], a: 0, c: "Determiners" },
+      { q: "I don't have ___ money left.", o: ["some", "any", "many", "a few"], a: 1, c: "Determiners" },
+      { q: "She has ___ friends in the city.", o: ["much", "many", "any", "a little"], a: 1, c: "Determiners" },
+      { q: "He went to ___ bed early.", o: ["a", "an", "the", "no article"], a: 3, c: "Articles" },
+      { q: "___ apple a day keeps the doctor away.", o: ["A", "An", "The", "No article"], a: 1, c: "Articles" },
+      { q: "I would like ___ water, please.", o: ["some", "any", "many", "few"], a: 0, c: "Determiners" },
+      { q: "___ gave me this book.", o: ["Him", "He", "His", "Himself"], a: 1, c: "Pronouns" },
+      { q: "This is between you and ___.", o: ["I", "me", "my", "mine"], a: 1, c: "Pronouns" },
+      { q: "She did the project by ___.", o: ["hers", "her", "herself", "she"], a: 2, c: "Pronouns" },
+      { q: "He is ___ than his brother.", o: ["tall", "taller", "tallest", "more tall"], a: 1, c: "Comparatives" },
+      { q: "This is the ___ movie I've ever seen.", o: ["good", "better", "best", "most good"], a: 2, c: "Comparatives" },
+      { q: "She works ___ than anyone else.", o: ["hard", "harder", "hardest", "more hard"], a: 1, c: "Comparatives" },
+      { q: "You ___ wear a seatbelt.", o: ["must", "might", "can", "may"], a: 0, c: "Modals" },
+      { q: "___ I borrow your pencil?", o: ["Must", "Should", "May", "Will"], a: 2, c: "Modals" },
+      { q: "She ___ speak three languages.", o: ["can", "might", "must", "should"], a: 0, c: "Modals" },
+      { q: "We ___ leave early tomorrow.", o: ["have to", "has to", "can to", "might to"], a: 0, c: "Modals" },
+      
+      { q: "You ___ not park here; it is a tow zone.", o: ["must", "can", "should", "might"], a: 0, c: "Modals" },
+      { q: "I ___ swim when I was four years old.", o: ["can", "could", "might", "should"], a: 1, c: "Modals" },
+      { q: "They ___ arrive late if the traffic is bad.", o: ["must", "might", "can", "have to"], a: 1, c: "Modals" },
+      { q: "___ you like a cup of tea?", o: ["Can", "Will", "Would", "Do"], a: 2, c: "Modals" },
+      { q: "You ___ to see a doctor about that cough.", o: ["should", "must", "ought", "could"], a: 2, c: "Modals" },
+      { q: "I don't need help, I can do it ___.", o: ["myself", "me", "my", "mine"], a: 0, c: "Pronouns" },
+      { q: "The car ___ won the race was incredibly fast.", o: ["who", "which", "whom", "what"], a: 1, c: "Pronouns" },
+      { q: "Is this jacket ___?", o: ["your", "you", "yours", "yourself"], a: 2, c: "Pronouns" },
+      { q: "___ is knocking at the door.", o: ["Someone", "Anyone", "No one", "Everyone"], a: 0, c: "Pronouns" },
+      { q: "The dog wagged ___ tail happily.", o: ["it's", "its", "it", "itself"], a: 1, c: "Pronouns" },
+      { q: "She is the ___ intelligent student in the class.", o: ["more", "most", "much", "many"], a: 1, c: "Comparatives" },
+      { q: "Today is much ___ than yesterday.", o: ["warm", "warmer", "warmest", "more warm"], a: 1, c: "Comparatives" },
+      { q: "This test is ___ difficult than the last one.", o: ["most", "more", "much", "very"], a: 1, c: "Comparatives" },
+      { q: "He ran as ___ as he could.", o: ["fast", "faster", "fastest", "fastly"], a: 0, c: "Comparatives" },
+      { q: "It was the ___ experience of my life.", o: ["worse", "bad", "worst", "baddest"], a: 2, c: "Comparatives" },
+      { q: "If it rains, we ___ the picnic.", o: ["cancel", "will cancel", "canceled", "would cancel"], a: 1, c: "Conditionals" },
+      { q: "If I ___ you, I would apologize.", o: ["am", "was", "were", "be"], a: 2, c: "Conditionals" },
+      { q: "They would have passed if they ___ harder.", o: ["study", "studied", "had studied", "were studying"], a: 2, c: "Conditionals" },
+      { q: "Ice melts if you ___ it.", o: ["heat", "heated", "will heat", "would heat"], a: 0, c: "Conditionals" },
+      { q: "If she has time, she ___ us.", o: ["visits", "will visit", "would visit", "visited"], a: 1, c: "Conditionals" },
+      { q: "If I won the lottery, I ___ travel the world.", o: ["will", "would", "can", "shall"], a: 1, c: "Conditionals" },
+      { q: "He wouldn't be tired if he ___ to bed earlier.", o: ["went", "had gone", "goes", "has gone"], a: 1, c: "Conditionals" },
+      { q: "Water boils if the temperature ___ 100 degrees.", o: ["reach", "reaches", "will reach", "reached"], a: 1, c: "Conditionals" },
+      { q: "If you mix blue and yellow, you ___ green.", o: ["got", "gets", "get", "will get"], a: 2, c: "Conditionals" },
+      { q: "I would have called you if I ___ your number.", o: ["have", "had", "had had", "would have"], a: 2, c: "Conditionals" },
+      
+      { q: "She enjoys ___ books in her free time.", o: ["read", "to read", "reading", "reads"], a: 2, c: "Gerunds & Infinitives" },
+      { q: "I want ___ the world.", o: ["see", "to see", "seeing", "saw"], a: 1, c: "Gerunds & Infinitives" },
+      { q: "He gave up ___ two years ago.", o: ["smoke", "to smoke", "smoking", "smoked"], a: 2, c: "Gerunds & Infinitives" },
+      
+      { q: "The meeting was called ___ due to illness.", o: ["off", "out", "up", "down"], a: 0, c: "Phrasal Verbs" },
+      { q: "Can you turn ___ the radio? It's too loud.", o: ["on", "down", "up", "in"], a: 1, c: "Phrasal Verbs" },
+      { q: "I need to catch ___ on my sleep.", o: ["in", "up", "on", "out"], a: 1, c: "Phrasal Verbs" },
+      
+      { q: "The man ___ lives next door is a doctor.", o: ["which", "who", "whom", "whose"], a: 1, c: "Relative Clauses" },
+      { q: "The book ___ I bought is missing.", o: ["who", "what", "which", "whom"], a: 2, c: "Relative Clauses" },
+      { q: "That is the girl ___ brother won the prize.", o: ["who", "which", "whose", "whom"], a: 2, c: "Relative Clauses" },
+      { q: "Do you know the restaurant ___ we ate last week?", o: ["which", "where", "that", "when"], a: 1, c: "Relative Clauses" },
+      { q: "Summer is the season ___ I am happiest.", o: ["which", "where", "when", "who"], a: 2, c: "Relative Clauses" },
+      { q: "She is someone on ___ you can always rely.", o: ["who", "whom", "whose", "which"], a: 1, c: "Relative Clauses" },
+      { q: "I gave him all the money ___ I had.", o: ["that", "what", "which", "whose"], a: 0, c: "Relative Clauses" },
+      { q: "The reason ___ he left is unknown.", o: ["which", "where", "why", "when"], a: 2, c: "Relative Clauses" },
+      { q: "This is the car ___ broke down yesterday.", o: ["who", "which", "whose", "whom"], a: 1, c: "Relative Clauses" },
+      { q: "He is the person ___ I was talking about.", o: ["whom", "whose", "which", "where"], a: 0, c: "Relative Clauses" },
+      
+      { q: "He said that he ___ tired.", o: ["is", "was", "has been", "will be"], a: 1, c: "Reported Speech" },
+      { q: "She told me she ___ the movie already.", o: ["saw", "has seen", "had seen", "sees"], a: 2, c: "Reported Speech" },
+      { q: "They asked if I ___ to join them.", o: ["want", "wanted", "have wanted", "will want"], a: 1, c: "Reported Speech" },
+      
+      { q: "I ___ go to the gym on Mondays.", o: ["always", "much", "many", "very"], a: 0, c: "Adverbs" },
+      { q: "She sings ___, everyone loves to listen.", o: ["beautiful", "beautifully", "beauty", "more beautiful"], a: 1, c: "Adverbs" },
+      { q: "He ___ ever leaves the house.", o: ["hardly", "hard", "always", "often"], a: 0, c: "Adverbs" },
+      { q: "They completed the puzzle ___.", o: ["easy", "easily", "easier", "easiest"], a: 1, c: "Adverbs" },
+      { q: "I have ___ finished my meal.", o: ["almost", "very", "too", "much"], a: 0, c: "Adverbs" },
+      { q: "It is ___ cold outside today.", o: ["extremely", "extreme", "much", "many"], a: 0, c: "Adverbs" },
+      { q: "He spoke so ___ that I couldn't hear him.", o: ["quiet", "quietly", "quietness", "quieter"], a: 1, c: "Adverbs" },
+      { q: "We ___ visit our grandparents on Sundays.", o: ["usual", "usually", "unusual", "unusually"], a: 1, c: "Adverbs" },
+      { q: "The train arrived ___.", o: ["late", "lately", "latest", "later"], a: 0, c: "Adverbs" },
+      { q: "She handled the situation very ___.", o: ["careful", "carefully", "care", "caring"], a: 1, c: "Adverbs" }
+    ];
+
+    const GAME_TIME = 10;
+
+    const getNewQuestionState = (currentIndex = -1) => {
+      let nextIndex;
+      do {
+        nextIndex = Math.floor(Math.random() * questions.length);
+      } while (nextIndex === currentIndex);
+      
+      const q = questions[nextIndex];
+      const correctStr = q.o[q.a];
+      
+      const shuffled = [...q.o];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      
+      return { 
+        index: nextIndex, 
+        text: q.q, 
+        category: q.c, 
+        options: shuffled, 
+        correctStr: correctStr 
+      };
+    };
+
+    const QuizWidget = () => {
+      const [quizState, setQuizState] = useState(() => getNewQuestionState());
+      const [timeLeft, setTimeLeft] = useState(GAME_TIME);
+      
+      const [score, setScore] = useState(0); 
+      const [totalAnswered, setTotalAnswered] = useState(0);
+      const [isPaused, setIsPaused] = useState(false);
+      const [isGameOver, setIsGameOver] = useState(false);
+      
+      const [selectedAnswer, setSelectedAnswer] = useState(null);
+      const [isTimeout, setIsTimeout] = useState(false);
+      const timerRef = useRef(null);
+
+      const getNextQuestion = useCallback(() => {
+        if (isGameOver) return;
+        setSelectedAnswer(null);
+        setIsTimeout(false);
+        setTimeLeft(GAME_TIME);
+        setQuizState(getNewQuestionState(quizState.index));
+      }, [quizState.index, isGameOver]);
+
+      useEffect(() => {
+        if (selectedAnswer !== null || isTimeout || isPaused || isGameOver) return;
+
+        timerRef.current = setInterval(() => {
+          setTimeLeft((prev) => {
+            if (prev <= 0.1) {
+              clearInterval(timerRef.current);
+              setIsTimeout(true);
+              setTotalAnswered(t => t + 1);
+              setTimeout(getNextQuestion, 1500);
+              return 0;
+            }
+            return prev - 0.1;
+          });
+        }, 100);
+
+        return () => clearInterval(timerRef.current);
+      }, [selectedAnswer, isTimeout, isPaused, isGameOver, getNextQuestion]);
+
+      const handleAnswer = (index) => {
+        if (selectedAnswer !== null || isTimeout || isPaused || isGameOver) return;
+        
+        setSelectedAnswer(index);
+        clearInterval(timerRef.current);
+        setTotalAnswered(t => t + 1);
+
+        const isCorrect = quizState.options[index] === quizState.correctStr;
+        if (isCorrect) {
+          setScore(s => s + 1);
+        }
+
+        setTimeout(getNextQuestion, 1500);
+      };
+
+      const handleRestart = () => {
+        setScore(0);
+        setTotalAnswered(0);
+        setIsGameOver(false);
+        setIsPaused(false);
+        setSelectedAnswer(null);
+        setIsTimeout(false);
+        setTimeLeft(GAME_TIME);
+        setQuizState(getNewQuestionState());
+      };
+
+      const getButtonColor = (index) => {
+        if (selectedAnswer === null && !isTimeout) {
+          return "bg-white border-gray-200 text-gray-700 hover:border-gray-400 hover:bg-gray-50";
+        }
+        
+        const isCorrectOption = quizState.options[index] === quizState.correctStr;
+        
+        if (isCorrectOption) {
+          return "bg-emerald-50 border-emerald-500 text-emerald-800";
+        }
+        
+        if (index === selectedAnswer && !isCorrectOption) {
+          return "bg-rose-50 border-rose-500 text-rose-800";
+        }
+        
+        return "bg-white border-gray-100 text-gray-400 opacity-50";
+      };
+
+      return (
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 w-full relative overflow-hidden">
+          
+          {/* PAUSE OVERLAY */}
+          {isPaused && !isGameOver && (
+            <div className="absolute inset-0 bg-white/95 z-20 flex flex-col items-center justify-center backdrop-blur-sm">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-6 tracking-tight">Assessment Paused</h2>
+              <button onClick={() => setIsPaused(false)} className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2.5 rounded-md font-medium text-sm transition-colors">
+                Resume Practice
+              </button>
+            </div>
+          )}
+
+          {/* GAME OVER OVERLAY */}
+          {isGameOver && (
+            <div className="absolute inset-0 bg-white z-30 flex flex-col items-center justify-center p-6 text-center">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2 tracking-tight">Practice Complete</h2>
+              <div className="text-base text-gray-500 mb-8">
+                Final Score: <span className="text-gray-900 font-semibold">{score}</span>
+              </div>
+              <button onClick={handleRestart} className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2.5 rounded-md font-medium text-sm transition-colors">
+                Start New Session
+              </button>
+            </div>
+          )}
+
+          {/* Header */}
+          <div className="bg-white border-b border-gray-100 p-4 flex justify-between items-center">
+            <div className="font-medium text-sm text-gray-600">
+              Score: <span className="text-gray-900">{score}</span>
+            </div>
+            <div className="flex gap-2">
+              <button 
+                onClick={() => setIsPaused(true)} 
+                className="text-gray-500 hover:text-gray-900 px-3 py-1.5 rounded text-xs font-medium border border-gray-200 hover:border-gray-300 transition-colors"
+              >
+                Pause
+              </button>
+              <button 
+                onClick={() => setIsGameOver(true)} 
+                className="text-gray-500 hover:text-gray-900 px-3 py-1.5 rounded text-xs font-medium border border-gray-200 hover:border-gray-300 transition-colors"
+              >
+                End Session
+              </button>
+            </div>
+          </div>
+
+          {/* Timer Bar */}
+          <div className="h-[2px] bg-gray-100 w-full relative">
+            <div 
+              className="absolute top-0 left-0 h-full progress-bar bg-gray-800"
+              style={{ width: `${(timeLeft / GAME_TIME) * 100}%` }}
+            ></div>
+          </div>
+
+          {/* Question Area */}
+          <div className="p-6 md:p-10">
+            <div className="text-xs font-semibold text-gray-400 mb-4 tracking-widest uppercase">
+              {quizState.category}
+            </div>
+            <h2 className="text-xl md:text-2xl font-medium text-gray-900 leading-snug mb-10 min-h-[4rem]">
+              {quizState.text}
+            </h2>
+
+            {/* Options Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {quizState.options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleAnswer(index)}
+                  disabled={selectedAnswer !== null || isTimeout}
+                  className={`w-full px-5 py-4 rounded-md border text-left text-sm md:text-base transition-colors duration-150 ${getButtonColor(index)}`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<QuizWidget />);
+  </script>
+</body>
+</html>
