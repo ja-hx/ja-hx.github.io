@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SG English Editing Mastery | MOE Syllabus Practice</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       DESIGN TOKENS & RESET (Sophisticated Slate & Indigo Aesthetic)
+       ========================================================================== */
+    :root {
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+
+      --brand-primary: #0f172a;       /* Deep Slate / Navy */
+      --brand-primary-hover: #1e293b;
+      --brand-accent: #2563eb;        /* Vibrant Cobalt Blue (SaaS Standard) */
+      --brand-accent-hover: #1d4ed8;
+      --brand-light: #eff6ff;
+
+      --highlight-warn-bg: #fef3c7;
+      --highlight-warn-border: #d97706;
+      --highlight-warn-text: #78350f;
+
+      --success-bg: #f0fdf4;
+      --success-border: #16a34a;
+      --success-text: #14532d;
+
+      --error-bg: #fef2f2;
+      --error-border: #dc2626;
+      --error-text: #7f1d1d;
+
+      --border-color: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 12px;
+      --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+      --font-sans: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================================================
+       HEADER & NAVIGATION
+       ========================================================================== */
+    header {
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: var(--shadow-xs);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .brand-emblem {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25);
+    }
+
+    .brand-badge {
+      background-color: var(--bg-subtle);
+      color: var(--brand-primary);
+      border: 1px solid var(--border-strong);
+      font-weight: 600;
+      font-size: 0.68rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      vertical-align: middle;
+      margin-left: 0.5rem;
+    }
+
+    .brand-title h1 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .brand-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.1rem;
+    }
+
+    /* ==========================================================================
+       MAIN CONTAINER & VIEWS
+       ========================================================================== */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ==========================================================================
+       DIFFICULTY SELECTION MENU
+       ========================================================================== */
+    .menu-intro {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .menu-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--brand-accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-intro h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .menu-intro p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .level-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+      gap: 1.35rem;
+    }
+
+    .level-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .level-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-md);
+    }
+
+    .level-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      width: fit-content;
+    }
+
+    .tag-easy { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+    .tag-medium { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+    .tag-hard { background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
+
+    .level-card h3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .level-card p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.35rem;
+      line-height: 1.6;
+    }
+
+    .level-meta {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      background: var(--bg-subtle);
+      padding: 0.7rem 0.85rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.4rem;
+      border-left: 3px solid var(--brand-primary);
+    }
+
+    /* ==========================================================================
+       ANIMATIONS & ICONS
+       ========================================================================== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-up {
+      animation: fadeUp 0.4s ease-out forwards;
+    }
+
+    /* ==========================================================================
+       BUTTONS & INTERACTIVE CONTROLS
+       ========================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 0.65rem 1.25rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      min-height: 40px;
+    }
+
+    .btn:active {
+      transform: scale(0.99);
+    }
+
+    .btn-primary {
+      background-color: var(--brand-primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--brand-primary-hover);
+    }
+
+    .btn-accent {
+      background-color: var(--brand-accent);
+      color: #ffffff;
+    }
+
+    .btn-accent:hover {
+      background-color: var(--brand-accent-hover);
+    }
+
+    .btn-secondary {
+      background-color: #ffffff;
+      border-color: var(--border-strong);
+      color: var(--brand-primary);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-subtle);
+      border-color: var(--brand-primary);
+    }
+
+    .btn-outline {
+      background-color: #ffffff;
+      border-color: var(--border-strong);
+      color: var(--brand-primary);
+      padding: 0.4rem 0.85rem;
+      font-size: 0.82rem;
+      min-height: 34px;
+    }
+
+    .btn-outline:hover {
+      background-color: var(--bg-subtle);
+      color: var(--brand-primary-hover);
+    }
+
+    /* ==========================================================================
+       WORKSHEET & PASSAGE CARD
+       ========================================================================== */
+    .worksheet-topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .worksheet-topbar .level-tag {
+      margin-bottom: 0;
+    }
+
+    .instructions-banner {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--brand-primary);
+      padding: 0.9rem 1.25rem;
+      border-radius: var(--radius-md);
+      margin-bottom: 1.5rem;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .worksheet-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    .passage-header {
+      background: var(--bg-card);
+      padding: 1.65rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .passage-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .passage-header h2 {
+      font-family: var(--font-sans);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+
+    .passage-context {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    .table-header-row {
+      display: grid;
+      grid-template-columns: 48px 1fr 230px;
+      gap: 1.25rem;
+      padding: 0.65rem 2rem;
+      background-color: var(--bg-subtle);
+      font-weight: 700;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--brand-primary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .editing-row {
+      display: grid;
+      grid-template-columns: 48px 1fr 230px;
+      gap: 1.25rem;
+      padding: 1.25rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+      align-items: center;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .editing-row:hover {
+      background-color: var(--bg-page);
+      box-shadow: inset 3px 0 0 var(--border-strong);
+    }
+
+    .editing-row:last-child {
+      border-bottom: none;
+    }
+
+    .editing-row.row-correct {
+      background-color: #fafdfb;
+    }
+
+    .editing-row.row-incorrect {
+      background-color: #fffcfc;
+    }
+
+    .item-num {
+      font-weight: 700;
+      color: var(--brand-primary);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-strong);
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sentence-text {
+      font-family: var(--font-sans);
+      font-size: 1.06rem;
+      line-height: 1.85;
+      color: var(--text-primary);
+      letter-spacing: -0.005em;
+    }
+
+    /* Highlighted error word in Level 1 & Level 2 */
+    .error-highlight {
+      background-color: #eff6ff;
+      border-bottom: 2px solid #2563eb;
+      color: #1e3a8a;
+      font-weight: 600;
+      padding: 0.05rem 0.35rem;
+      border-radius: 3px;
+    }
+
+    /* Clickable words in Level 3 (Exam Simulation) */
+    .clickable-word {
+      display: inline-block;
+      padding: 0.04rem 0.25rem;
+      margin: 0 1px;
+      border-radius: 4px;
+      cursor: pointer;
+      border-bottom: 1.5px dashed transparent;
+      transition: background-color 0.12s ease, border-color 0.12s ease;
+    }
+
+    .clickable-word:hover {
+      background-color: #f1f5f9;
+      border-bottom-color: #94a3b8;
+    }
+
+    .clickable-word.selected-word {
+      background-color: var(--brand-light);
+      border: 1px solid #93c5fd;
+      color: var(--brand-accent);
+      font-weight: 600;
+    }
+
+    .clickable-word.graded-actual-error {
+      background-color: var(--error-bg);
+      border: 1px solid #fca5a5;
+      color: var(--error-text);
+      font-weight: 600;
+    }
+
+    .clickable-word.graded-found-error {
+      background-color: var(--success-bg);
+      border: 1px solid #86efac;
+      color: var(--success-text);
+      font-weight: 600;
+    }
+
+    /* Level 3 Tick Button & Input Group */
+    .btn-tick {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      padding: 0 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--brand-primary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      min-height: 38px;
+    }
+
+    .btn-tick:hover {
+      background: var(--bg-subtle);
+    }
+
+    .btn-tick.active {
+      background: var(--success-bg);
+      border-color: var(--success-border);
+      color: var(--success-text);
+    }
+
+    .level3-input-group {
+      display: flex;
+      gap: 0.5rem;
+      width: 100%;
+    }
+
+    /* Answer Inputs */
+    .answer-control select,
+    .answer-control input[type="text"] {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.9rem;
+      font-family: var(--font-sans);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      background-color: #ffffff;
+      color: var(--text-primary);
+      min-height: 38px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .answer-control select:focus,
+    .answer-control input[type="text"]:focus {
+      outline: none;
+      border-color: var(--brand-accent);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+    }
+
+    .selected-indicator {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    .selected-indicator strong {
+      color: var(--brand-accent);
+    }
+
+    /* Feedback Box inside each row after grading */
+    .feedback-panel {
+      grid-column: 2 / -1;
+      margin-top: 0.4rem;
+      padding: 0.85rem 1.05rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 0.86rem;
+      line-height: 1.55;
+      border: 1px solid transparent;
+    }
+
+    .feedback-panel.correct {
+      background-color: var(--success-bg);
+      border-color: #bbf7d0;
+      border-left: 3.5px solid var(--success-border);
+      color: var(--success-text);
+    }
+
+    .feedback-panel.incorrect {
+      background-color: var(--error-bg);
+      border-color: #fecaca;
+      border-left: 3.5px solid var(--error-border);
+      color: var(--error-text);
+    }
+
+    .grammar-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      background: rgba(17, 24, 39, 0.06);
+      margin-right: 0.45rem;
+    }
+
+    /* ==========================================================================
+       ACTION BAR & SCORE SUMMARY
+       ========================================================================== */
+    .action-footer {
+      padding: 1.25rem 2rem;
+      background-color: var(--bg-subtle);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .validation-banner {
+      background-color: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 4px solid #d97706;
+      color: #92400e;
+      padding: 0.8rem 1.15rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.25rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    .score-summary-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--brand-primary);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .score-badge-circle {
+      background: var(--bg-subtle);
+      color: var(--brand-primary);
+      border: 1.5px solid var(--border-strong);
+      width: 78px;
+      height: 78px;
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .score-badge-circle .score-big {
+      font-size: 1.65rem;
+      font-weight: 800;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .score-badge-circle .score-total {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-top: 0.15rem;
+    }
+
+    .score-details {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .score-details h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .score-details p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* ==========================================================================
+       FOOTER
+       ========================================================================== */
+    footer {
+      border-top: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+      padding: 1.15rem 1.5rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       RESPONSIVE ADJUSTMENTS (TABLET & MOBILE)
+       ========================================================================== */
+    @media (max-width: 740px) {
+      .table-header-row {
+        display: none;
+      }
+
+      .passage-header {
+        padding: 1.25rem 1.25rem;
+      }
+
+      .editing-row {
+        grid-template-columns: 32px 1fr;
+        gap: 0.75rem 1rem;
+        padding: 1.25rem;
+        align-items: start;
+      }
+
+      .answer-control {
+        grid-column: 1 / -1;
+        margin-top: 0.35rem;
+      }
+
+      .feedback-panel {
+        grid-column: 1 / -1;
+      }
+
+      .action-footer {
+        padding: 1.15rem 1.25rem;
+      }
+      
+      .answer-control select,
+      .answer-control input[type="text"],
+      .btn,
+      .btn-tick {
+        min-height: 44px; /* Better mobile touch targets */
+      }
+      
+      .level3-input-group {
+        flex-wrap: wrap;
+      }
+      
+      .level3-input-group input {
+        flex: 1;
+        min-width: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <!-- ======================================================================
+         VIEW 1: DIFFICULTY SELECTION MENU
+         ====================================================================== -->
+    <section id="menuView">
+      <div class="menu-intro">
+        <h2>Select Your Practice Level</h2>
+      </div>
+
+      <div class="level-grid">
+        <!-- LEVEL 1 -->
+        <article class="level-card">
+          <div>
+            <span class="level-tag tag-easy">Level 1 • Guided MCQ</span>
+            <h3>Multiple-Choice Correction</h3>
+            <p>
+              The grammatical or spelling error in each line is highlighted. Select the most accurate replacement from four structured options.
+            </p>
+          </div>
+          <button class="btn btn-primary" onclick="startLevel(1)">Begin Module 1 &rarr;</button>
+        </article>
+
+        <!-- LEVEL 2 -->
+        <article class="level-card">
+          <div>
+            <span class="level-tag tag-medium">Level 2 • Scaffolded Input</span>
+            <h3>Open-Ended Word Supply</h3>
+            <p>
+              The erroneous word in each sentence is identified for you. Supply the single grammatically correct or accurately spelt word.
+            </p>
+          </div>
+          <button class="btn btn-primary" onclick="startLevel(2)">Begin Module 2 &rarr;</button>
+        </article>
+
+        <!-- LEVEL 3 -->
+        <article class="level-card">
+          <div>
+            <span class="level-tag tag-hard">Level 3 • Exam Simulation</span>
+            <h3>PSLE / O-Level Format</h3>
+            <p>
+              No clues are highlighted. Identify and click the single erroneous word in each sentence, then enter its exact replacement.
+            </p>
+          </div>
+          <button class="btn btn-primary" onclick="startLevel(3)">Begin Module 3 &rarr;</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 2: ACTIVE EDITING WORKSHEET
+         ====================================================================== -->
+    <section id="exerciseView" class="hidden animate-fade-up">
+      <div class="worksheet-topbar">
+        <span id="currentLevelBadge" class="level-tag tag-easy">Level 1</span>
+      </div>
+
+      <!-- Dynamic Instructions -->
+      <div id="instructionsBox" class="instructions-banner"></div>
+
+      <!-- Score Summary (Revealed upon grading) -->
+      <div id="scoreSummaryCard" class="score-summary-card hidden">
+        <div class="score-badge-circle">
+          <span class="score-big" id="scoreValue">0</span>
+          <span class="score-total">of 10</span>
+        </div>
+        <div class="score-details">
+          <h3 id="scoreHeadline">Assessment Complete</h3>
+          <p id="scoreMessage">Review the detailed grammatical explanations below to sharpen your editing skills.</p>
+        </div>
+        <div style="display: flex; gap: 0.65rem; flex-wrap: wrap;">
+          <button class="btn btn-secondary" onclick="resetCurrentLevel()">Retry Passage</button>
+          <button class="btn btn-primary" onclick="nextPassage()">Next Passage</button>
+          <button class="btn btn-outline" onclick="returnToMenu()">Switch Module</button>
+        </div>
+      </div>
+
+      <!-- Validation Alert (Replaces native alert()) -->
+      <div id="validationBanner" class="validation-banner hidden"></div>
+
+      <!-- Main Passage Worksheet -->
+      <div class="worksheet-card">
+        <div class="passage-header">
+          <div class="passage-label">Editing Passage • 10 Marks</div>
+          <h2 id="passageTitle">Passage Title</h2>
+          <p id="passageContext" class="passage-context">Context description</p>
+        </div>
+
+        <div class="table-header-row">
+          <div>Item</div>
+          <div>Passage Text</div>
+          <div>Correction</div>
+        </div>
+
+        <div id="rowsContainer"></div>
+
+        <div class="action-footer">
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button id="checkAnswersBtn" class="btn btn-accent" onclick="checkAnswers()">
+              Submit &amp; Grade Answers
+            </button>
+            <button id="resetBtn" class="btn btn-secondary" onclick="resetCurrentLevel()">
+              Clear Responses
+            </button>
+            <button id="nextBtn" class="btn btn-secondary" onclick="nextPassage()">
+              Next Passage
+            </button>
+          </div>
+          <button class="btn btn-outline" onclick="returnToMenu()">
+            &larr; Return to Modules
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /* ==========================================================================
+       SINGAPORE MOE ENGLISH EDITING CURRICULUM DATA
+       15 Passages with 10 Items each. Shared across all difficulty levels.
+       ========================================================================== */
+    const ALL_PASSAGES = [
+      {
+        title: "Practice 1: Orangutans",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "Derived from the Malay language, the name orangutan means 'man of the forest'. Known for its characteristic red fur, orangutans are the largest arboreal", errorWord: "its", correctWord: "their", options: ["their", "it's", "there", "his"], category: "Pronoun", explanation: "Plural pronoun needed for 'orangutans'." },
+          { id: 2, sentence: "mammals, primarily residing in a forest canopy. Their long, powerful arms and", errorWord: "a", correctWord: "the", options: ["the", "an", "some", "any"], category: "Article", explanation: "Refers to a specific canopy." },
+          { id: 3, sentence: "prehensile hands and feet allowed them to move through branches with ease.", errorWord: "allowed", correctWord: "allow", options: ["allow", "allows", "allowing", "has allowed"], category: "Tense", explanation: "Present tense for general facts." },
+          { id: 4, sentence: "They fulfil a pivotal function, dispersal seeds in their tropical forest habitats.", errorWord: "dispersal", correctWord: "dispersing", options: ["dispersing", "disperse", "dispersed", "disperses"], category: "Word Form", explanation: "Present participle form needed." },
+          { id: 5, sentence: "However, the habitats of Asia's only great apes is disappearing under the", errorWord: "is", correctWord: "are", options: ["are", "was", "were", "be"], category: "Subject-Verb Agreement", explanation: "Plural subject 'habitats'." },
+          { id: 6, sentence: "chainsaw to makes way for oil palm and other agricultural plantations. Illegal", errorWord: "makes", correctWord: "make", options: ["make", "making", "made", "has made"], category: "Verb Form", explanation: "Base form required after the infinitive 'to'." },
+          { id: 7, sentence: "logging remain an existential threat to the orangutans. Today, surviving", errorWord: "remain", correctWord: "remains", options: ["remains", "remaining", "remained", "has remained"], category: "Subject-Verb Agreement", explanation: "Singular subject 'logging'." },
+          { id: 8, sentence: "orangutans are found in forests that are owned and managed from timber and", errorWord: "from", correctWord: "by", options: ["by", "with", "of", "in"], category: "Preposition", explanation: "Passive voice uses 'by'." },
+          { id: 9, sentence: "palm oil companies. However, this threat is exacerbated by an extremely", errorWord: "However,", correctWord: "Furthermore,", options: ["Furthermore,", "Therefore,", "Thus,", "Instead,"], category: "Conjunction", explanation: "Adding information, not contrasting." },
+          { id: 10, sentence: "low reproductive rate, who makes their population highly vulnerable. They are also killed for food or in retaliation when they move into agricultural areas.", errorWord: "who", correctWord: "which", options: ["which", "whom", "whose", "what"], category: "Relative Pronoun", explanation: "Refers to a non-human noun 'rate'." }
+        ]
+      },
+      {
+        title: "Practice 2: The Ginkgo Tree",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "Native to China, the Ginkgo biloba is a majestic tree with distinctive golden fan-shaped leaf. A veritable living fossil, it is an exceptional tree that has", errorWord: "leaf", correctWord: "leaves", options: ["leaves", "leafs", "leafing", "leaved"], category: "Plural Noun", explanation: "Plural form of leaf." },
+          { id: 2, sentence: "fascinated people for thousands of years. Appeared over 270 million years", errorWord: "Appeared", correctWord: "Appearing", options: ["Appearing", "Appears", "Appear", "Has appeared"], category: "Verb Form", explanation: "Present participle used for active clauses." },
+          { id: 3, sentence: "ago, it are considered the world's oldest tree species. Its longevity and", errorWord: "are", correctWord: "is", options: ["is", "was", "were", "be"], category: "Subject-Verb Agreement", explanation: "Singular pronoun 'it'." },
+          { id: 4, sentence: "resistance is legend: it even survived the Hiroshima atomic explosion, being", errorWord: "legend", correctWord: "legendary", options: ["legendary", "legends", "legendarily", "legended"], category: "Word Form (Adjective)", explanation: "Adjective form required." },
+          { id: 5, sentence: "the first plant to regrow after the disaster. In Japan, the Ginkgo occupied a", errorWord: "occupied", correctWord: "occupies", options: ["occupies", "occupy", "occupying", "has occupied"], category: "Tense", explanation: "Present tense for an ongoing fact." },
+          { id: 6, sentence: "special place in its culture. Introducing as early as the 12th century, it has", errorWord: "Introducing", correctWord: "Introduced", options: ["Introduced", "Introduce", "Introduces", "Has introduced"], category: "Verb Form", explanation: "Past participle for passive meaning." },
+          { id: 7, sentence: "become an emblematic element of the archipelago. Before 1989, it has been", errorWord: "Before", correctWord: "Since", options: ["Since", "After", "During", "When"], category: "Conjunction", explanation: "Connects past point to present perfect tense." },
+          { id: 8, sentence: "the official emblem of the capital, Tokyo. Its stylized leaf adorns the logo on", errorWord: "on", correctWord: "of", options: ["of", "in", "at", "by"], category: "Preposition", explanation: "Belonging to the Tokyo Metro." },
+          { id: 9, sentence: "the Tokyo Metro, and many of the city’s parks are populated by these trees. An", errorWord: "An", correctWord: "The", options: ["The", "A", "Some", "These"], category: "Article", explanation: "Referring to a specific avenue." },
+          { id: 10, sentence: "avenue of ginkgos in Meiji-Jingu Gaien Park are particularly famous, attracting photographers each autumn to immortalize the spectacle of golden leaves.", errorWord: "are", correctWord: "is", options: ["is", "was", "were", "be"], category: "Subject-Verb Agreement", explanation: "Singular subject 'avenue'." }
+        ]
+      },
+      {
+        title: "Practice 3: Vegetables",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "In 2010, nine in 10 Singapore residents did not eat enough fruits and vegetables, according to a National Nutrition Survey conducted that year. That figure improved in the", errorWord: "a", correctWord: "the", options: ["the", "an", "some", "this"], category: "Determiner", explanation: "Refers to a specific proper noun survey." },
+          { id: 2, sentence: "2018 survey, with average vegetables consumption hitting the recommended two daily", errorWord: "vegetables", correctWord: "vegetable", options: ["vegetable", "vegetation", "vegetating", "vegetable's"], category: "Noun as Adjective", explanation: "Singular noun modifying 'consumption'." },
+          { id: 3, sentence: "servings. But why are vegetables overlooked as our local cuisine? It may be because", errorWord: "as", correctWord: "in", options: ["in", "for", "at", "with"], category: "Preposition", explanation: "Overlooked within the cuisine." },
+          { id: 4, sentence: "hawker food are often thought of as everyday fare; more than half of Singaporeans eat at", errorWord: "are", correctWord: "is", options: ["is", "was", "were", "be"], category: "Subject-Verb Agreement", explanation: "Uncountable noun 'food'." },
+          { id: 5, sentence: "the hawker centre at least three times a week. Therefore, many of these dishes are too", errorWord: "Therefore", correctWord: "However", options: ["However", "Moreover", "Furthermore", "Thus"], category: "Conjunction", explanation: "Shows contrast with everyday fare." },
+          { id: 6, sentence: "nutrition poor and calorically dense to be eaten on a regular basis. They are rooted in a", errorWord: "nutrition", correctWord: "nutritionally", options: ["nutritionally", "nutritious", "nutrient", "nutrients"], category: "Word Form", explanation: "Adverb needed to modify 'poor'." },
+          { id: 7, sentence: "time when many Singaporeans worked physically demanding jobs and require extra", errorWord: "require", correctWord: "required", options: ["required", "requires", "requiring", "has required"], category: "Tense", explanation: "Matches past tense 'worked'." },
+          { id: 8, sentence: "calories to perform strenuous tasks. Even though Singaporeans now mostly working", errorWord: "working", correctWord: "work", options: ["work", "works", "worked", "has worked"], category: "Verb Form", explanation: "Main present verb required." },
+          { id: 9, sentence: "sedentary, desk-bound jobs, the face of hawker food has not changed many. The price", errorWord: "many", correctWord: "much", options: ["much", "more", "most", "lots"], category: "Adverb", explanation: "Degree modifying 'changed'." },
+          { id: 10, sentence: "ceiling on hawker food might also have a part to play with the disproportionate lack of vegetables on our plates. Hawkers give a lot of carbohydrates so that the plate looks full.", errorWord: "with", correctWord: "in", options: ["in", "for", "on", "at"], category: "Preposition", explanation: "Idiom: a part to play in." }
+        ]
+      },
+      {
+        title: "Practice 4: Biodegradable Plastic",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "Researchers in Japan have developed a plastic that dissolves in seawater within hours, potentially offering up a solution of a modern-day scourge", errorWord: "of", correctWord: "to", options: ["to", "for", "in", "with"], category: "Preposition", explanation: "A solution to a problem." },
+          { id: 2, sentence: "polluting oceans and harming wildlife. While scientists has long experimented", errorWord: "has", correctWord: "have", options: ["have", "had", "having", "is"], category: "Subject-Verb Agreement", explanation: "Plural subject 'scientists'." },
+          { id: 3, sentence: "with biodegradable plastics, the Japanese say their new material broke down", errorWord: "broke", correctWord: "breaks", options: ["breaks", "break", "breaking", "broken"], category: "Tense", explanation: "Present fact." },
+          { id: 4, sentence: "much more quicker and leaves no residual trace. At a laboratory in Tokyo, the", errorWord: "quicker", correctWord: "quickly", options: ["quickly", "quick", "quickest", "quickness"], category: "Word Form", explanation: "Adverb needed to modify verb." },
+          { id: 5, sentence: "team demonstrated a small piece of plastic vanished in a container of salt", errorWord: "vanished", correctWord: "vanishing", options: ["vanishing", "vanishes", "vanish", "has vanished"], category: "Verb Form", explanation: "Participle describing the piece." },
+          { id: 6, sentence: "water after stirring them for about an hour. While the team has not yet detailed", errorWord: "them", correctWord: "it", options: ["it", "they", "their", "its"], category: "Pronoun", explanation: "Refers to singular 'water'/'plastic'." },
+          { id: 7, sentence: "any plans for commercialisation, there research has attracted significant", errorWord: "there", correctWord: "their", options: ["their", "they're", "theirs", "them"], category: "Pronoun", explanation: "Possessive determinative." },
+          { id: 8, sentence: "interest, including from those at the packaging sector. Scientists worldwide are", errorWord: "at", correctWord: "in", options: ["in", "from", "on", "with"], category: "Preposition", explanation: "Working in a sector." },
+          { id: 9, sentence: "racing to combat the growing plastic waste crisis with innovation approaches.", errorWord: "innovation", correctWord: "innovative", options: ["innovative", "innovate", "innovated", "innovates"], category: "Word Form", explanation: "Adjective needed." },
+          { id: 10, sentence: "Plastic pollution is set to triple by 2040, adding an estimate 23-37 million metric tons of waste into the world's oceans each year.", errorWord: "estimate", correctWord: "estimated", options: ["estimated", "estimates", "estimating", "estimation"], category: "Word Form", explanation: "Adjective past participle." }
+        ]
+      },
+      {
+        title: "Practice 5: French Perfume",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "The French perfume industry traces its roots to the Renaissance, when the town of Grasse was famed in leather goods. To mask the unpleasant", errorWord: "in", correctWord: "for", options: ["for", "with", "at", "by"], category: "Preposition", explanation: "Famed for something." },
+          { id: 2, sentence: "smells from tanneries, leather-makers start infusing their products", errorWord: "start", correctWord: "started", options: ["started", "starts", "starting", "have started"], category: "Tense", explanation: "Past tense narrative." },
+          { id: 3, sentence: "with floral essences. This practise evolved into a refined craft, and was", errorWord: "practise", correctWord: "practice", options: ["practice", "practices", "practised", "practical"], category: "Spelling / Word Form", explanation: "Noun form needed (British spelling)." },
+          { id: 4, sentence: "passes down through generations. Jean-Louis Fargeon, the perfumer", errorWord: "passes", correctWord: "passed", options: ["passed", "passing", "pass", "has passed"], category: "Tense", explanation: "Past passive voice." },
+          { id: 5, sentence: "believed to have created scents for Marie Antoinette, came from the", errorWord: "the", correctWord: "a", options: ["a", "an", "some", "any"], category: "Article", explanation: "Not a specific, predefined line." },
+          { id: 6, sentence: "long line of apothecary. The renowned fragrance house Guerlain,", errorWord: "apothecary", correctWord: "apothecaries", options: ["apothecaries", "apothecary's", "apothecarial", "apothecaries'"], category: "Plural Noun", explanation: "Line of multiple ancestors." },
+          { id: 7, sentence: "one of France's older, was a family-run business for many years,", errorWord: "older", correctWord: "oldest", options: ["oldest", "old", "oldness", "elder"], category: "Superlative", explanation: "Comparing among all of France." },
+          { id: 8, sentence: "serving both European and American elites. Moreover, perfumers", errorWord: "Moreover", correctWord: "However", options: ["However", "Therefore", "Thus", "Furthermore"], category: "Conjunction", explanation: "Contrast to fame." },
+          { id: 9, sentence: "often remain behind the scene. Chanel No. 5, for example, is", errorWord: "scene", correctWord: "scenes", options: ["scenes", "scenic", "scenery", "scented"], category: "Plural Noun", explanation: "Idiom: behind the scenes." },
+          { id: 10, sentence: "associated with Marilyn Monroe rather than her creator, Ernest Beaux. In perfumery, the creator is often simply called 'a nose'.", errorWord: "her", correctWord: "its", options: ["its", "his", "their", "our"], category: "Pronoun", explanation: "Refers to the non-human perfume." }
+        ]
+      },
+      {
+        title: "Practice 6: Volunteerism",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "Young people around the world are finding ways to contribute meaningfully to society. Many of them has volunteered with organisations addressing poverty, education and", errorWord: "has", correctWord: "have", options: ["have", "had", "having", "is"], category: "Subject-Verb Agreement", explanation: "'Many' requires a plural verb." },
+          { id: 2, sentence: "health. In Singapore, more youths are taking the initiative to serve in community-led effort.", errorWord: "effort", correctWord: "efforts", options: ["efforts", "effort's", "effortless", "efforting"], category: "Plural Noun", explanation: "Multiple initiatives indicate plural efforts." },
+          { id: 3, sentence: "Volunteering do not only build empathy, but also practical life skills. However, some teens", errorWord: "do", correctWord: "does", options: ["does", "did", "doing", "done"], category: "Subject-Verb Agreement", explanation: "Singular gerund subject." },
+          { id: 4, sentence: "hesitate because they believed they lack time or experience. One student shared that he", errorWord: "believed", correctWord: "believe", options: ["believe", "believes", "believing", "has believed"], category: "Tense", explanation: "Present fact." },
+          { id: 5, sentence: "were nervous before his first mentoring session. Still, he continues to return weekly,", errorWord: "were", correctWord: "was", options: ["was", "is", "be", "been"], category: "Subject-Verb Agreement", explanation: "Singular subject 'he'." },
+          { id: 6, sentence: "encouraged by the progress of his mentee. Many programmes are designed flexible,", errorWord: "flexible", correctWord: "flexibly", options: ["flexibly", "flexibility", "flex", "flexibleness"], category: "Word Form (Adverb)", explanation: "Adverb modifying verb 'designed'." },
+          { id: 7, sentence: "allowing students to balances service with studies. Some efforts focus on causes, like", errorWord: "balances", correctWord: "balance", options: ["balance", "balancing", "balanced", "has balanced"], category: "Verb Form", explanation: "Infinitive verb." },
+          { id: 8, sentence: "animal rescue, environment clean-ups or mental well-being. Beyond helping others,", errorWord: "environment", correctWord: "environmental", options: ["environmental", "environments", "environmentally", "environment's"], category: "Word Form (Adjective)", explanation: "Adjective describing clean-ups." },
+          { id: 9, sentence: "these experience often spark deeper reflection and purpose. Educators say youth", errorWord: "experience", correctWord: "experiences", options: ["experiences", "experiencing", "experienced", "experience's"], category: "Plural Noun", explanation: "'These' requires a plural noun." },
+          { id: 10, sentence: "engagement is highest when students feel their voice is value. By stepping up, young people demonstrate that leadership begins with compassion.", errorWord: "value", correctWord: "valued", options: ["valued", "values", "valuing", "valuable"], category: "Word Form", explanation: "Past participle for passive." }
+        ]
+      },
+      {
+        title: "Practice 7: Why We Yawn",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "The physiological function of the yawn remains elusive, making it the less understood human behaviour. Hunger and boredom are", errorWord: "less", correctWord: "least", options: ["least", "lesser", "little", "most"], category: "Superlative", explanation: "Superlative for absolute comparison." },
+          { id: 2, sentence: "states in whom we may find our attention drifting. A yawn then serves as", errorWord: "whom", correctWord: "which", options: ["which", "who", "whose", "what"], category: "Relative Pronoun", explanation: "Refers to non-human 'states'." },
+          { id: 3, sentence: "our body's effort to reengage itself rather than succumb by fatigue. In", errorWord: "by", correctWord: "to", options: ["to", "with", "for", "in"], category: "Preposition", explanation: "Succumb to something." },
+          { id: 4, sentence: "fact, a yawn is usually followed by increasing movements and", errorWord: "increasing", correctWord: "increased", options: ["increased", "increases", "increase", "has increased"], category: "Word Form", explanation: "Past participle adjective." },
+          { id: 5, sentence: "physiological activities, which suggest that some sort of 'waking up' had", errorWord: "had", correctWord: "has", options: ["has", "have", "having", "is"], category: "Tense", explanation: "Present relevance." },
+          { id: 6, sentence: "taken place. \"You yawn when you were obviously not bored,\" Robert", errorWord: "were", correctWord: "are", options: ["are", "was", "be", "been"], category: "Tense", explanation: "Present fact in quote." },
+          { id: 7, sentence: "Provine, a neuroscientist, states. \"For example, the occasionally yawns of", errorWord: "occasionally", correctWord: "occasional", options: ["occasional", "occasion", "occasions", "occasioned"], category: "Word Form", explanation: "Adjective modifying noun." },
+          { id: 8, sentence: "Olympic athletes before their events and concert violinists before the", errorWord: "the", correctWord: "a", options: ["a", "an", "some", "any"], category: "Article", explanation: "General concerto, not specific." },
+          { id: 9, sentence: "concerto.\" A yawn may simple signal a shift in physiological state.", errorWord: "simple", correctWord: "simply", options: ["simply", "simpler", "simplest", "simpleness"], category: "Word Form (Adverb)", explanation: "Adverb modifying 'signal'." },
+          { id: 10, sentence: "Thus, rather than condemns Sasha Obama's infamous yawn during her father's 2013 inaugural address, we should compliment her.", errorWord: "condemns", correctWord: "condemn", options: ["condemn", "condemning", "condemned", "has condemned"], category: "Verb Form", explanation: "Base form after rather than." }
+        ]
+      },
+      {
+        title: "Practice 8: Dolphin Communication",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "The theory that dolphins may have a language dates back to the 1960s, thus any conclusive evidence has remained elusive. Dolphins are", errorWord: "thus", correctWord: "though", options: ["though", "but", "however", "therefore"], category: "Conjunction", explanation: "Shows contrast." },
+          { id: 2, sentence: "the more vocal animals in our oceans. Their pods, made up of 10 to 30", errorWord: "more", correctWord: "most", options: ["most", "much", "many", "lots"], category: "Superlative", explanation: "Top of the group." },
+          { id: 3, sentence: "dolphins, are a bustle soundscape of clicks, whistles and pulses.", errorWord: "bustle", correctWord: "bustling", options: ["bustling", "bustled", "bustles", "bustly"], category: "Word Form", explanation: "Present participle adjective." },
+          { id: 4, sentence: "Which to our ears is a creaking door or a melodic pop is to a dolphin a", errorWord: "Which", correctWord: "What", options: ["What", "Who", "Whom", "Whose"], category: "Relative Pronoun", explanation: "Means 'the thing that'." },
+          { id: 5, sentence: "mean to echolocate or communicate. They even have names research", errorWord: "mean", correctWord: "means", options: ["means", "meaning", "meant", "mean's"], category: "Noun", explanation: "Means: method or way." },
+          { id: 6, sentence: "has found they use 'signature whistles' to identify itself, a sort of vocal", errorWord: "itself", correctWord: "themselves", options: ["themselves", "himself", "herself", "ourselves"], category: "Pronoun", explanation: "Plural reflexive." },
+          { id: 7, sentence: "version of a humans signature. These whistles are produced by one", errorWord: "humans", correctWord: "human's", options: ["human's", "humans'", "human", "humanity"], category: "Punctuation", explanation: "Possessive apostrophe needed." },
+          { id: 8, sentence: "individual and repeated by another to initiate contact. These findings raised", errorWord: "raised", correctWord: "raise", options: ["raise", "raises", "raising", "has raised"], category: "Tense", explanation: "Present ongoing effect." },
+          { id: 9, sentence: "the question of whether dolphins communicate using something akin with", errorWord: "with", correctWord: "to", options: ["to", "for", "in", "by"], category: "Preposition", explanation: "Akin to." },
+          { id: 10, sentence: "a language. This discovery may shows that these creatures are capable of a complex cognitive feat, setting them apart from other aquatic animals.", errorWord: "shows", correctWord: "show", options: ["show", "showing", "showed", "has shown"], category: "Verb Form", explanation: "Base form after modal." }
+        ]
+      },
+      {
+        title: "Practice 9: Boredom & Social Media",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "Scrolling through videos on TikTok or YouTube to avert boredom may have a decidedly unintend consequence. It can make people feel more bored,", errorWord: "unintend", correctWord: "unintended", options: ["unintended", "unintending", "unintends", "unintend"], category: "Word Form", explanation: "Past participle adjective." },
+          { id: 2, sentence: "according with the paradoxical findings of a recent study. Researchers", errorWord: "with", correctWord: "to", options: ["to", "for", "in", "by"], category: "Preposition", explanation: "According to." },
+          { id: 3, sentence: "investigated the psychological effects of ‘digital switching’, which are the", errorWord: "are", correctWord: "is", options: ["is", "was", "were", "be"], category: "Subject-Verb Agreement", explanation: "Singular subject." },
+          { id: 4, sentence: "algorithmically enable, quintessentially modern-day habit of scrolling and", errorWord: "enable", correctWord: "enabled", options: ["enabled", "enabling", "enables", "has enabled"], category: "Word Form", explanation: "Past participle." },
+          { id: 5, sentence: "fast-forward through online videos during moments of downtime. Boredom", errorWord: "fast-forward", correctWord: "fast-forwarding", options: ["fast-forwarding", "fast-forwarded", "fast-forwards", "fast-forward"], category: "Parallelism", explanation: "Matches scrolling." },
+          { id: 6, sentence: "is an uncomfortable emotion that serves a purpose, signal that there is", errorWord: "signal", correctWord: "signalling", options: ["signalling", "signalled", "signals", "signal"], category: "Verb Form", explanation: "Present participle." },
+          { id: 7, sentence: "something more pleasurable to do, which can motivate people to explore his", errorWord: "his", correctWord: "their", options: ["their", "they", "them", "its"], category: "Pronoun", explanation: "Refers to plural 'people'." },
+          { id: 8, sentence: "environment but stop investing time in an activity that has little to offer.", errorWord: "but", correctWord: "and", options: ["and", "or", "so", "yet"], category: "Conjunction", explanation: "Adding action." },
+          { id: 9, sentence: "However, people seem increasing intolerant of it. Psychology Professor", errorWord: "increasing", correctWord: "increasingly", options: ["increasingly", "increased", "increases", "increase"], category: "Word Form (Adverb)", explanation: "Adverb modifying adjective." },
+          { id: 10, sentence: "Michael Inzlicht, has the piece of advice: Lean into it. Sit with the discomfort of boredom for a bit before flitting to something else.", errorWord: "the", correctWord: "a", options: ["a", "an", "some", "any"], category: "Article", explanation: "Introducing general advice." }
+        ]
+      },
+      {
+        title: "Practice 10: Robots in Education",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "Undoubtedly, robots can be useful in education: for example, story-reading robots has been used to teach basic language skills to", errorWord: "has", correctWord: "have", options: ["have", "had", "having", "is"], category: "Subject-Verb Agreement", explanation: "Plural subject." },
+          { id: 2, sentence: "young children. While the thought of a infallible robot teaching", errorWord: "a", correctWord: "an", options: ["an", "the", "some", "any"], category: "Article", explanation: "Vowel sound." },
+          { id: 3, sentence: "in a classroom might seem promising, they are far to being the", errorWord: "to", correctWord: "from", options: ["from", "with", "in", "by"], category: "Preposition", explanation: "Idiom: far from." },
+          { id: 4, sentence: "futures of education. A crucial part of education is the development of", errorWord: "futures", correctWord: "future", options: ["future", "futuristic", "futurism", "future's"], category: "Plural Noun", explanation: "Singular abstract concept." },
+          { id: 5, sentence: "critical thinking and interpersonally skills. A robot might be capable of", errorWord: "interpersonally", correctWord: "interpersonal", options: ["interpersonal", "interpersonals", "interperson", "interpersonally"], category: "Word Form", explanation: "Adjective modifying skills." },
+          { id: 6, sentence: "teaching every subject with a high proficiency, but there is much", errorWord: "high", correctWord: "higher", options: ["higher", "highest", "highly", "highness"], category: "Comparative", explanation: "Comparative degree." },
+          { id: 7, sentence: "more involved in classroom teaching. The ability to solve problem,", errorWord: "problem", correctWord: "problems", options: ["problems", "problematic", "problem's", "probleming"], category: "Plural Noun", explanation: "General problems." },
+          { id: 8, sentence: "work collaboratively and think creatively cannot be teach by robots.", errorWord: "teach", correctWord: "taught", options: ["taught", "teaching", "teaches", "has taught"], category: "Verb Form", explanation: "Past participle." },
+          { id: 9, sentence: "Human teachers that can help students develop sociability and", errorWord: "that", correctWord: "who", options: ["who", "whom", "which", "whose"], category: "Relative Pronoun", explanation: "Refers to humans." },
+          { id: 10, sentence: "empathy, also provide the emotion support that helps students become a whole person.", errorWord: "emotion", correctWord: "emotional", options: ["emotional", "emotions", "emotionally", "emotion's"], category: "Word Form", explanation: "Adjective required." }
+        ]
+      },
+      {
+        title: "Practice 11: Towels & Hygiene",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "A towel used on clean skin after a shower can be one of the filthiest things in your bathroom. Unwashed towels harboured a host of bacteria and the more often a", errorWord: "harboured", correctWord: "harbour", options: ["harbour", "harbours", "harbouring", "has harboured"], category: "Tense", explanation: "Present fact." },
+          { id: 2, sentence: "towel is used, the most bacteria and fungi it tends to accumulate, as it is unable", errorWord: "most", correctWord: "more", options: ["more", "many", "much", "lots"], category: "Comparative", explanation: "Comparative correlation (the more... the more)." },
+          { id: 3, sentence: "to dry complete between uses. People with compromised skin barriers such", errorWord: "complete", correctWord: "completely", options: ["completely", "completeness", "completing", "completed"], category: "Word Form", explanation: "Adverb modifying verb." },
+          { id: 4, sentence: "as eczema is vulnerable, owing to their skin's reduced ability to act", errorWord: "is", correctWord: "are", options: ["are", "was", "were", "be"], category: "Subject-Verb Agreement", explanation: "Plural subject 'People'." },
+          { id: 5, sentence: "as a protective barrier. A method chosen to dry towels affects the bacteria", errorWord: "A", correctWord: "The", options: ["The", "An", "Some", "Any"], category: "Article", explanation: "Specific method." },
+          { id: 6, sentence: "growth. A sunlight dried towel was show to have half the bacterial colonies after", errorWord: "show", correctWord: "shown", options: ["shown", "showing", "shows", "has shown"], category: "Verb Form", explanation: "Past participle passive." },
+          { id: 7, sentence: "24 hours as compared to one left under the bathroom to dry. When it comes to", errorWord: "under", correctWord: "in", options: ["in", "on", "at", "by"], category: "Preposition", explanation: "Inside the room." },
+          { id: 8, sentence: "material, cotton is the worst, owing to its high absorbencies and slow drying time.", errorWord: "absorbencies", correctWord: "absorbency", options: ["absorbency", "absorbent", "absorbing", "absorbs"], category: "Noun", explanation: "Uncountable trait." },
+          { id: 9, sentence: "Microfibre is slightly better and not as resistant as the antimicrobial and bamboo", errorWord: "and", correctWord: "but", options: ["but", "or", "so", "yet"], category: "Conjunction", explanation: "Shows contrast." },
+          { id: 10, sentence: "towels, where had some fungus but no detectable bacteria. No material is foolproof. The key is to wash towels often so that we start with a clean slate.", errorWord: "where", correctWord: "which", options: ["which", "who", "whom", "what"], category: "Relative Pronoun", explanation: "Refers to things." }
+        ]
+      },
+      {
+        title: "Practice 12: Taylor Swift",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "Taylor Swift has won over the hearts of many as proven in the success in her Eras tour which is the highest grossing tour for any", errorWord: "in", correctWord: "of", options: ["of", "for", "with", "to"], category: "Preposition", explanation: "Success of." },
+          { id: 2, sentence: "artiste of all time, with millions of Swifties cramming in", errorWord: "in", correctWord: "into", options: ["into", "on", "at", "by"], category: "Preposition", explanation: "Movement into." },
+          { id: 3, sentence: "stadiums to see the superstar lives. Her success is mainly due to", errorWord: "lives", correctWord: "live", options: ["live", "living", "lived", "lively"], category: "Adverb", explanation: "Performing live." },
+          { id: 4, sentence: "factors such as her enduring in the music industry, as well as her", errorWord: "enduring", correctWord: "endurance", options: ["endurance", "endures", "endured", "endurable"], category: "Word Form", explanation: "Noun required." },
+          { id: 5, sentence: "videos and social media that had spread her fame far and wide.", errorWord: "had", correctWord: "have", options: ["have", "has", "having", "is"], category: "Tense", explanation: "Present perfect effect." },
+          { id: 6, sentence: "A strong factor lie in her lyrics that build her social fan club,", errorWord: "lie", correctWord: "lies", options: ["lies", "lying", "lied", "has lied"], category: "Subject-Verb Agreement", explanation: "Singular subject." },
+          { id: 7, sentence: "who binds millions together through a common language and", errorWord: "who", correctWord: "which", options: ["which", "whom", "whose", "what"], category: "Relative Pronoun", explanation: "Refers to fan club." },
+          { id: 8, sentence: "creates an identity. Fans goes to the concerts not solely to listen to", errorWord: "goes", correctWord: "go", options: ["go", "going", "gone", "has gone"], category: "Subject-Verb Agreement", explanation: "Plural subject." },
+          { id: 9, sentence: "her music but also for an experience of being part of a social", errorWord: "a", correctWord: "the", options: ["the", "an", "some", "any"], category: "Article", explanation: "Specific group mentioned." },
+          { id: 10, sentence: "group so that they feel connected; not only to the artiste and to other people who appreciate the performer as well.", errorWord: "and", correctWord: "but", options: ["but", "or", "so", "yet"], category: "Conjunction", explanation: "Not only... but also." }
+        ]
+      },
+      {
+        title: "Practice 13: Bubble Tea",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "As much a textural marvel as a refreshing drink, bubble tea is one of Taiwan's most renowned cultural export. The eponymous 'bubbles' are not the result of carbonation,", errorWord: "export", correctWord: "exports", options: ["exports", "exporting", "exported", "exporter"], category: "Plural Noun", explanation: "One of multiple exports." },
+          { id: 2, sentence: "and a pile of chewy, sweet, balls of starch that sit at the bottom of the cup and are sucked", errorWord: "and", correctWord: "but", options: ["but", "or", "so", "yet"], category: "Conjunction", explanation: "Not... but." },
+          { id: 3, sentence: "up along with some liquid through the extra-wide straw. Bubble tea as we know it today", errorWord: "the", correctWord: "an", options: ["an", "a", "some", "any"], category: "Article", explanation: "Non-specific straw introducing concept." },
+          { id: 4, sentence: "came from existence almost four decades ago. The first iterations of the drink also", errorWord: "from", correctWord: "into", options: ["into", "in", "to", "at"], category: "Preposition", explanation: "Came into existence." },
+          { id: 5, sentence: "called boba tea - emerged in the 1980s out of Taiwan's tradition tea shops, and today", errorWord: "tradition", correctWord: "traditional", options: ["traditional", "traditions", "traditionally", "traditionalist"], category: "Word Form", explanation: "Adjective needed." },
+          { id: 6, sentence: "boba tea shops remained a fixture in most neighbourhoods across the island. Rather than", errorWord: "remained", correctWord: "remain", options: ["remain", "remains", "remaining", "has remained"], category: "Tense", explanation: "Present fact." },
+          { id: 7, sentence: "sit-down spots, these is usually grab-and-go establishments, operating at devilishly fast", errorWord: "is", correctWord: "are", options: ["are", "was", "were", "be"], category: "Subject-Verb Agreement", explanation: "Plural pronoun 'these'." },
+          { id: 8, sentence: "speed. Bubble tea has since proliferate across the world, with dedicated shops popping", errorWord: "proliferate", correctWord: "proliferated", options: ["proliferated", "proliferating", "proliferates", "proliferation"], category: "Verb Form", explanation: "Present perfect." },
+          { id: 9, sentence: "up everywhere in Berlin to Brasilia. You will find starch pearls (as the bubbles or boba", errorWord: "in", correctWord: "from", options: ["from", "to", "at", "by"], category: "Preposition", explanation: "From A to B." },
+          { id: 10, sentence: "are also known) in many more than milk tea. These pearls are served in all sorts of ways, whether in rose-scented lattes or even as a pizza topping.", errorWord: "many", correctWord: "much", options: ["much", "more", "most", "lots"], category: "Determiner", explanation: "Uncountable degree." }
+        ]
+      },
+      {
+        title: "Practice 14: National Day",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "National Day in Singapore is a time when citizens unite in celebration. It commemorates the country’s independent, marking the moment it", errorWord: "independent", correctWord: "independence", options: ["independence", "independently", "independents", "independent's"], category: "Word Form", explanation: "Noun required." },
+          { id: 2, sentence: "becomes a sovereign state in 1965 and began charting its own course.", errorWord: "becomes", correctWord: "became", options: ["became", "becoming", "become", "has become"], category: "Tense", explanation: "Past event." },
+          { id: 3, sentence: "Across the island, national flags are hang proudly outside buildings", errorWord: "hang", correctWord: "hung", options: ["hung", "hanging", "hangs", "has hung"], category: "Verb Form", explanation: "Past participle." },
+          { id: 4, sentence: "while residents gathers in anticipation of the annual parade to begin.", errorWord: "gathers", correctWord: "gather", options: ["gather", "gathering", "gathered", "has gathered"], category: "Subject-Verb Agreement", explanation: "Plural subject." },
+          { id: 5, sentence: "The parade, a highlight of the celebrations, feature marching contingents", errorWord: "feature", correctWord: "features", options: ["features", "featuring", "featured", "has featured"], category: "Subject-Verb Agreement", explanation: "Singular subject." },
+          { id: 6, sentence: "and performance groups who have spend weeks perfecting their routines.", errorWord: "spend", correctWord: "spent", options: ["spent", "spending", "spends", "has spent"], category: "Verb Form", explanation: "Past participle perfect tense." },
+          { id: 7, sentence: "Many find themselves enjoying not just the spectacle, but also the uniquely", errorWord: "uniquely", correctWord: "unique", options: ["unique", "uniqueness", "uniques", "uniquing"], category: "Word Form", explanation: "Adjective required." },
+          { id: 8, sentence: "sense of community spirits that events like carnivals and exhibitions help to", errorWord: "spirits", correctWord: "spirit", options: ["spirit", "spirited", "spiriting", "spirit's"], category: "Noun", explanation: "Singular abstract concept." },
+          { id: 9, sentence: "create. A funpack containing many items is distributed for each participant", errorWord: "for", correctWord: "to", options: ["to", "with", "in", "by"], category: "Preposition", explanation: "Distributed to." },
+          { id: 10, sentence: "and items like handheld fans help attendees stay cool but cheerful. Ultimately, National Day serves as a reminder of our unity and shared progress.", errorWord: "but", correctWord: "and", options: ["and", "or", "so", "yet"], category: "Conjunction", explanation: "Matching positive elements." }
+        ]
+      },
+      {
+        title: "Practice 15: Elderly & Technology",
+        context: "Each numbered line contains one highlighted grammatical or spelling error.",
+        items: [
+          { id: 1, sentence: "Singapore’s seniors are increasingly adopting technology for their well-being. However, while digital habits have become more common, gaps in usage persists.", errorWord: "persists", correctWord: "persist", options: ["persist", "persisting", "persisted", "has persisted"], category: "Subject-Verb Agreement", explanation: "Plural subject 'gaps'." },
+          { id: 2, sentence: "Some seniors can navigate applications intuitively, but others remain unfamiliarised", errorWord: "unfamiliarised", correctWord: "unfamiliar", options: ["unfamiliar", "unfamiliarity", "unfamiliarly", "unfamiliars"], category: "Word Form", explanation: "Standard adjective." },
+          { id: 3, sentence: "with it due to a lack of exposure and practice. One barrier is the assumption", errorWord: "it", correctWord: "them", options: ["them", "they", "their", "its"], category: "Pronoun", explanation: "Refers to applications." },
+          { id: 4, sentence: "that the elderly needs constant support to use such tools. In reality, many", errorWord: "needs", correctWord: "need", options: ["need", "needing", "needed", "has needed"], category: "Subject-Verb Agreement", explanation: "Plural group 'the elderly'." },
+          { id: 5, sentence: "have expressed that what they needed most is simply clear guidance and", errorWord: "needed", correctWord: "need", options: ["need", "needs", "needing", "has needed"], category: "Tense", explanation: "Present fact." },
+          { id: 6, sentence: "patience. Although the government have introduced various initiatives to bridge the", errorWord: "have", correctWord: "has", options: ["has", "had", "having", "is"], category: "Subject-Verb Agreement", explanation: "Singular entity." },
+          { id: 7, sentence: "digital gap, access for reliable assistance remains limited. Furthermore, the", errorWord: "for", correctWord: "to", options: ["to", "with", "in", "by"], category: "Preposition", explanation: "Access to." },
+          { id: 8, sentence: "lack of standardisation across platforms also often lead to frustration among", errorWord: "lead", correctWord: "leads", options: ["leads", "leading", "led", "has led"], category: "Subject-Verb Agreement", explanation: "Singular subject 'lack'." },
+          { id: 9, sentence: "users. However, with the right support, every individual can discover or adopt", errorWord: "or", correctWord: "and", options: ["and", "but", "so", "yet"], category: "Conjunction", explanation: "Adding related actions." },
+          { id: 10, sentence: "digital tools that suit their needs. Empower seniors in this way ensures that no one is left behind in the journey towards digital inclusion.", errorWord: "Empower", correctWord: "Empowering", options: ["Empowering", "Empowers", "Empowered", "Empowerment"], category: "Verb Form", explanation: "Gerund subject needed." }
+        ]
+      }
+    ];
+
+    // Map the 2 authentic 'No Error' lines per passage specifically for Level 3
+    const LEVEL3_TICK_MAP = {
+      0: [6, 7], 1: [3, 6], 2: [2, 4], 3: [2, 7], 4: [4, 6],
+      5: [7, 8], 6: [9, 10], 7: [7, 10], 8: [4, 5], 9: [4, 5],
+      10: [7, 10], 11: [3, 8], 12: [7, 9], 13: [4, 8], 14: [4, 6]
+    };
+    Object.keys(LEVEL3_TICK_MAP).forEach(pIdx => {
+      LEVEL3_TICK_MAP[pIdx].forEach(itemNum => {
+        const item = ALL_PASSAGES[pIdx].items.find(i => i.id === itemNum);
+        if (item) item.level3Tick = true;
+      });
+    });
+
+    const EDITING_LEVELS = {
+      1: {
+        levelName: "Level 1 • Easy (Guided Multiple-Choice)",
+        tagClass: "tag-easy",
+        instructions: "<strong>Instructions:</strong> Look at the highlighted word in each sentence. Choose the correct replacement from the dropdown list on the right."
+      },
+      2: {
+        levelName: "Level 2 • Medium (Scaffolded Input)",
+        tagClass: "tag-medium",
+        instructions: "<strong>Instructions:</strong> The erroneous word in each sentence is highlighted. Type the single corrected word into the input box on the right."
+      },
+      3: {
+        levelName: "Level 3 • Hard (Exam Simulation)",
+        tagClass: "tag-hard",
+        instructions: "<strong>Exam Mode Instructions:</strong> Click or tap on the single erroneous word inside each sentence to highlight it. Then type the exact correction in the right-hand input box."
+      }
+    };
+
+    /* ==========================================================================
+       APPLICATION STATE
+       ========================================================================== */
+    let currentLevel = null;
+    let currentPassageData = null;
+    let currentPassageIndex = 0;
+    let isGraded = false;
+    // For Level 3: stores { [itemId]: { wordIndex: number, rawWord: string } }
+    let level3Selections = {};
+
+    /* ==========================================================================
+       NAVIGATION & VIEW RENDERING
+       ========================================================================== */
+    function startLevel(levelNumber, specificPassageData = null) {
+      currentLevel = levelNumber;
+      isGraded = false;
+      level3Selections = {};
+
+      document.getElementById("menuView").classList.add("hidden");
+      document.getElementById("exerciseView").classList.remove("hidden");
+      document.getElementById("scoreSummaryCard").classList.add("hidden");
+      document.getElementById("validationBanner").classList.add("hidden");
+      document.getElementById("checkAnswersBtn").disabled = false;
+      document.getElementById("checkAnswersBtn").style.opacity = "1";
+
+      const levelData = EDITING_LEVELS[levelNumber];
+      
+      let data = specificPassageData;
+      if (!data) {
+        currentPassageIndex = 0;
+        data = ALL_PASSAGES[currentPassageIndex];
+      }
+      currentPassageData = data;
+
+      // Update badges & headers
+      const badge = document.getElementById("currentLevelBadge");
+      badge.textContent = levelData.levelName;
+      badge.className = `level-tag ${levelData.tagClass}`;
+
+      document.querySelector(".passage-label").textContent = `Passage ${currentPassageIndex + 1} of ${ALL_PASSAGES.length} • 10 Marks`;
+
+      document.getElementById("instructionsBox").innerHTML = levelData.instructions;
+      document.getElementById("passageTitle").textContent = data.title;
+      
+      if (levelNumber === 3) {
+          document.getElementById("passageContext").textContent = "Each line contains one grammatical or spelling error. No words are highlighted.";
+      } else {
+          document.getElementById("passageContext").textContent = data.context || "Each sentence below contains one grammatical or spelling error.";
+      }
+
+      renderWorksheetRows(levelNumber, data.items);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function returnToMenu() {
+      currentLevel = null;
+      currentPassageData = null;
+      currentPassageIndex = 0;
+      isGraded = false;
+      document.getElementById("exerciseView").classList.add("hidden");
+      document.getElementById("menuView").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function resetCurrentLevel() {
+      if (currentLevel && currentPassageData) {
+        startLevel(currentLevel, currentPassageData);
+      }
+    }
+    
+    function nextPassage() {
+      if (!currentLevel) return;
+      currentPassageIndex = (currentPassageIndex + 1) % ALL_PASSAGES.length;
+      startLevel(currentLevel, ALL_PASSAGES[currentPassageIndex]);
+    }
+
+    /* ==========================================================================
+       SENTENCE TOKENIZATION & ROW RENDERING
+       ========================================================================== */
+    function stripPunctuation(token) {
+      return token.replace(/^[“"'(]+|[.,!?;:”"')]+$/g, "");
+    }
+
+    function renderWorksheetRows(levelNumber, items) {
+      const container = document.getElementById("rowsContainer");
+      container.innerHTML = "";
+
+      items.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "editing-row";
+        row.id = `row-${item.id}`;
+
+        // 1. Item Number
+        const numDiv = document.createElement("div");
+        numDiv.className = "item-num";
+        numDiv.textContent = item.id;
+
+        // 2. Sentence Column
+        const sentenceDiv = document.createElement("div");
+        sentenceDiv.className = "sentence-text";
+
+        if (levelNumber === 1 || levelNumber === 2) {
+          // Highlight the specific target error word cleanly
+          sentenceDiv.innerHTML = formatHighlightedSentence(item.sentence, item.errorWord);
+        } else {
+          // Level 3: Make every word clickable
+          sentenceDiv.appendChild(buildClickableSentence(item));
+        }
+
+        // 3. Answer Control Column
+        const controlDiv = document.createElement("div");
+        controlDiv.className = "answer-control";
+
+        if (levelNumber === 1) {
+          const select = document.createElement("select");
+          select.id = `input-${item.id}`;
+          select.setAttribute("aria-label", `Correction for item ${item.id}`);
+
+          const defaultOpt = document.createElement("option");
+          defaultOpt.value = "";
+          defaultOpt.textContent = "-- Select replacement --";
+          select.appendChild(defaultOpt);
+
+          // Shuffle options deterministically so correct answer isn't always first
+          const shuffled = shuffleArray([...item.options], item.id);
+          shuffled.forEach((optText) => {
+            const opt = document.createElement("option");
+            opt.value = optText;
+            opt.textContent = optText;
+            select.appendChild(opt);
+          });
+
+          controlDiv.appendChild(select);
+        } else {
+          // Level 2 & Level 3 text input
+          if (levelNumber === 3) {
+            const indicator = document.createElement("span");
+            indicator.className = "selected-indicator";
+            indicator.id = `selected-label-${item.id}`;
+            indicator.innerHTML = `Selected word: <em>None (click word)</em>`;
+            controlDiv.appendChild(indicator);
+            
+            const group = document.createElement("div");
+            group.className = "level3-input-group";
+            
+            const input = document.createElement("input");
+            input.type = "text";
+            input.id = `input-${item.id}`;
+            input.autocomplete = "off";
+            input.spellcheck = false;
+            input.placeholder = "Correction";
+            input.setAttribute("aria-label", `Correction for item ${item.id}`);
+            
+            const tickBtn = document.createElement("button");
+            tickBtn.className = "btn-tick";
+            tickBtn.id = `tick-btn-${item.id}`;
+            tickBtn.innerHTML = "✓ No Error";
+            tickBtn.onclick = () => toggleLevel3Tick(item.id);
+            
+            group.appendChild(input);
+            group.appendChild(tickBtn);
+            controlDiv.appendChild(group);
+          } else {
+            const input = document.createElement("input");
+            input.type = "text";
+            input.id = `input-${item.id}`;
+            input.autocomplete = "off";
+            input.spellcheck = false;
+            input.placeholder = "Type correct word...";
+            input.setAttribute("aria-label", `Correction for item ${item.id}`);
+            controlDiv.appendChild(input);
+          }
+        }
+
+        row.appendChild(numDiv);
+        row.appendChild(sentenceDiv);
+        row.appendChild(controlDiv);
+        container.appendChild(row);
+      });
+    }
+
+    function formatHighlightedSentence(sentence, errorWord) {
+      const tokens = sentence.split(" ");
+      let highlightedOnce = false;
+
+      return tokens
+        .map((token) => {
+          const clean = stripPunctuation(token);
+          if (!highlightedOnce && clean === errorWord) {
+            highlightedOnce = true;
+            // Preserve leading/trailing punctuation outside the highlight span
+            const match = token.match(/^([“"'()]*)(.+?)([.,!?;:”"')]*)$/);
+            if (match) {
+              return `${match[1]}<span class="error-highlight">${match[2]}</span>${match[3]}`;
+            }
+            return `<span class="error-highlight">${token}</span>`;
+          }
+          return token;
+        })
+        .join(" ");
+    }
+
+    function buildClickableSentence(item) {
+      const fragment = document.createDocumentFragment();
+      const tokens = item.sentence.split(" ");
+
+      tokens.forEach((token, idx) => {
+        const match = token.match(/^([“"'()]*)(.+?)([.,!?;:”"')]*)$/);
+        const leading = match ? match[1] : "";
+        const coreWord = match ? match[2] : token;
+        const trailing = match ? match[3] : "";
+
+        if (leading) {
+          fragment.appendChild(document.createTextNode(leading));
+        }
+
+        const span = document.createElement("span");
+        span.className = "clickable-word";
+        span.textContent = coreWord;
+        span.dataset.itemId = item.id;
+        span.dataset.wordIndex = idx;
+        span.dataset.cleanWord = coreWord;
+
+        span.addEventListener("click", () => {
+          if (isGraded) return;
+          handleLevel3WordClick(item.id, idx, coreWord, span);
+        });
+
+        fragment.appendChild(span);
+
+        if (trailing) {
+          fragment.appendChild(document.createTextNode(trailing));
+        }
+
+        if (idx < tokens.length - 1) {
+          fragment.appendChild(document.createTextNode(" "));
+        }
+      });
+
+      return fragment;
+    }
+
+    function toggleLevel3Tick(itemId) {
+      if (isGraded) return;
+      const btn = document.getElementById(`tick-btn-${itemId}`);
+      const input = document.getElementById(`input-${itemId}`);
+      const label = document.getElementById(`selected-label-${itemId}`);
+      const row = document.getElementById(`row-${itemId}`);
+
+      const isActive = btn.classList.contains("active");
+
+      if (isActive) {
+        btn.classList.remove("active");
+        input.disabled = false;
+        level3Selections[itemId] = null;
+        label.innerHTML = `Selected word: <em>None (click word)</em>`;
+      } else {
+        // Enforce maximum of 2 ticks to mimic actual exam
+        let tickCount = 0;
+        Object.values(level3Selections).forEach(sel => {
+          if (sel && sel.isTick) tickCount++;
+        });
+        if (tickCount >= 2) {
+          const banner = document.getElementById("validationBanner");
+          banner.innerHTML = "<strong>Note:</strong> You can only select a maximum of 2 lines with 'No Error'.";
+          banner.classList.remove("hidden");
+          setTimeout(() => banner.classList.add("hidden"), 3500);
+          return;
+        }
+
+        btn.classList.add("active");
+        input.value = "";
+        input.disabled = true;
+        level3Selections[itemId] = { isTick: true };
+        label.innerHTML = `Selected word: <strong>No Error (Tick)</strong>`;
+
+        row.querySelectorAll(".clickable-word").forEach((el) => {
+          el.classList.remove("selected-word");
+        });
+      }
+    }
+
+    function handleLevel3WordClick(itemId, wordIndex, cleanWord, clickedSpan) {
+      if (isGraded) return;
+
+      const tickBtn = document.getElementById(`tick-btn-${itemId}`);
+      if (tickBtn && tickBtn.classList.contains("active")) {
+         tickBtn.classList.remove("active");
+         document.getElementById(`input-${itemId}`).disabled = false;
+      }
+
+      // Remove previous highlight in this sentence
+      const row = document.getElementById(`row-${itemId}`);
+      row.querySelectorAll(".clickable-word").forEach((el) => {
+        el.classList.remove("selected-word");
+      });
+
+      clickedSpan.classList.add("selected-word");
+      level3Selections[itemId] = {
+        wordIndex,
+        cleanWord
+      };
+
+      const label = document.getElementById(`selected-label-${itemId}`);
+      if (label) {
+        label.innerHTML = `Selected word: <strong>"${cleanWord}"</strong>`;
+      }
+
+      // Focus the text input automatically for seamless keyboard entry
+      const inputEl = document.getElementById(`input-${itemId}`);
+      if (inputEl) {
+        inputEl.focus();
+      }
+    }
+
+    /* ==========================================================================
+       GRADING & PEDAGOGICAL FEEDBACK ENGINE
+       ========================================================================== */
+    function checkAnswers() {
+      if (isGraded) return;
+
+      const items = currentPassageData.items;
+      const validationBanner = document.getElementById("validationBanner");
+
+      // Check for incomplete items and provide a gentle warning if any are blank
+      let unansweredCount = 0;
+      items.forEach((item) => {
+        const val = document.getElementById(`input-${item.id}`).value.trim();
+        const selection = level3Selections[item.id];
+        
+        if (currentLevel === 3) {
+            if (!selection) unansweredCount++;
+            else if (!selection.isTick && !val) unansweredCount++;
+        } else {
+            if (!val) unansweredCount++;
+        }
+      });
+
+      if (unansweredCount > 0 && !validationBanner.dataset.warnedOnce) {
+        validationBanner.textContent = `You still have ${unansweredCount} incomplete item(s). Complete them for full practice, or click "Check Answers" again to submit anyway.`;
+        validationBanner.classList.remove("hidden");
+        validationBanner.dataset.warnedOnce = "true";
+        validationBanner.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+
+      validationBanner.classList.add("hidden");
+      delete validationBanner.dataset.warnedOnce;
+      isGraded = true;
+
+      const checkBtn = document.getElementById("checkAnswersBtn");
+      checkBtn.disabled = true;
+      checkBtn.style.opacity = "0.55";
+
+      let score = 0;
+
+      items.forEach((item) => {
+        const row = document.getElementById(`row-${item.id}`);
+        const inputEl = document.getElementById(`input-${item.id}`);
+        const userReplacement = inputEl.value.trim();
+        inputEl.disabled = true;
+
+        let isCorrect = false;
+        let userStatusText = "";
+        let correctionSummary = `Error: <strong>"${item.errorWord}"</strong> &rarr; Correct Answer: <strong>"${item.correctWord}"</strong>`;
+
+        if (currentLevel === 1 || currentLevel === 2) {
+          isCorrect = userReplacement.toLowerCase() === item.correctWord.toLowerCase();
+          userStatusText = userReplacement
+            ? `Your answer: <strong>${escapeHtml(userReplacement)}</strong>`
+            : `Your answer: <em>(No answer provided)</em>`;
+        } else {
+          // Level 3 requires BOTH identifying the erroneous word AND typing the right correction
+          // Or correctly identifying 'No Error' (Tick)
+          const selection = level3Selections[item.id];
+          const isTickSelected = selection && selection.isTick;
+
+          if (item.level3Tick) {
+             isCorrect = Boolean(isTickSelected);
+             userStatusText = isTickSelected
+               ? `You selected: <strong>No Error (✓)</strong>`
+               : `You selected: <strong>${selection ? `"${escapeHtml(selection.cleanWord)}"` : "(None)"}</strong> &rarr; Replacement: <strong>"${escapeHtml(userReplacement)}"</strong>`;
+             
+             correctionSummary = `This line has <strong>No Error</strong>.`;
+             
+             if (!isTickSelected && selection) {
+                row.querySelectorAll(".clickable-word").forEach((span) => {
+                  if (span.dataset.cleanWord === selection.cleanWord) {
+                    span.classList.add("graded-actual-error");
+                  }
+                });
+             }
+          } else {
+             if (isTickSelected) {
+               isCorrect = false;
+               userStatusText = `You selected: <strong>No Error (✓)</strong>`;
+             } else {
+               const identifiedRightWord = selection && selection.cleanWord.toLowerCase() === item.errorWord.toLowerCase();
+               const typedRightReplacement = userReplacement.toLowerCase() === item.correctWord.toLowerCase();
+               isCorrect = Boolean(identifiedRightWord && typedRightReplacement);
+
+               const pickedStr = selection ? `"${escapeHtml(selection.cleanWord)}"` : "None";
+               const typedStr = userReplacement ? `"${escapeHtml(userReplacement)}"` : "(Blank)";
+               userStatusText = `You selected: <strong>${pickedStr}</strong> &rarr; Replacement: <strong>${typedStr}</strong>`;
+
+               row.querySelectorAll(".clickable-word").forEach((span) => {
+                 if (span.dataset.cleanWord.toLowerCase() === item.errorWord.toLowerCase()) {
+                   span.classList.remove("selected-word");
+                   span.classList.add(identifiedRightWord ? "graded-found-error" : "graded-actual-error");
+                 }
+               });
+             }
+          }
+        }
+
+        if (isCorrect) {
+          score++;
+          row.classList.add("row-correct");
+        } else {
+          row.classList.add("row-incorrect");
+        }
+
+        // Build detailed pedagogical explanation panel
+        const feedback = document.createElement("div");
+        feedback.className = `feedback-panel ${isCorrect ? "correct" : "incorrect"}`;
+
+        const statusBadge = isCorrect ? "✓ Correct!" : "✗ Incorrect";
+
+        feedback.innerHTML = `
+          <div style="margin-bottom: 0.3rem;">
+            <strong>${statusBadge}</strong> &nbsp;|&nbsp; ${userStatusText} &nbsp;|&nbsp; ${correctionSummary}
+          </div>
+          <div>
+            <span class="grammar-tag">${item.category}</span>
+            ${item.explanation}
+          </div>
+        `;
+
+        row.appendChild(feedback);
+      });
+
+      displayScoreSummary(score, items.length);
+    }
+
+    function displayScoreSummary(score, total) {
+      const card = document.getElementById("scoreSummaryCard");
+      const scoreVal = document.getElementById("scoreValue");
+      const headline = document.getElementById("scoreHeadline");
+      const message = document.getElementById("scoreMessage");
+
+      scoreVal.textContent = score;
+
+      if (score === total) {
+        headline.textContent = "Outstanding! Full Marks (10/10)!";
+        message.textContent = "You demonstrated strong command of Singapore Standard English grammar and spelling. Challenge yourself with the next level!";
+      } else if (score >= 7) {
+        headline.textContent = "Great Effort! Well Above Passing Standard";
+        message.textContent = "You caught most of the errors accurately. Review the grammatical notes below for the remaining items.";
+      } else if (score >= 5) {
+        headline.textContent = "Good Attempt! Keep Practising";
+        message.textContent = "You are on the right track. Pay close attention to subject-verb agreement, word forms, and British spelling rules below.";
+      } else {
+        headline.textContent = "Keep Going! Every Mistake Is a Learning Step";
+        message.textContent = "Read each grammatical explanation carefully below, then click 'Retry This Level' to reinforce what you have learnt.";
+      }
+
+      card.classList.remove("hidden");
+      card.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    /* ==========================================================================
+       UTILITY FUNCTIONS
+       ========================================================================== */
+    function shuffleArray(array, seed) {
+      let currentIndex = array.length;
+      let s = seed * 9301 + 49297;
+      while (currentIndex !== 0) {
+        s = (s * 9301 + 49297) % 233280;
+        const randomIndex = Math.floor((s / 233280) * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+      }
+      return array;
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement("div");
+      div.textContent = str;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>
